@@ -1,0 +1,24 @@
+<div class="product-form-wrapper">
+
+  <!-- FORM -->
+  <form [formGroup]="categoryForm" (ngSubmit)="submitCategory()"  class="product-form">
+    <h2>{{ isEditMode ? 'Update Category' : 'Create Category' }}</h2>
+
+    
+    <div class="form-group">
+  <label>Category Name</label>
+ <input
+      type="text"
+      placeholder="Category Name"
+      formControlName="name"
+    />
+  <app-form-error [control]="categoryForm.get('name')" [errorLabel]="'Category Name'"></app-form-error>
+</div>
+
+  
+ 
+    <button type="submit">
+      {{ isEditMode ? 'Update' : 'Submit' }}
+    </button>
+  </form>
+  </div>

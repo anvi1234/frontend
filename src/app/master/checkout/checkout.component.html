@@ -1,0 +1,123 @@
+<form [formGroup]="checkoutForm" class="checkout-wrapper">
+
+  <!-- LEFT : BILLING -->
+  <div class="checkout-left">
+    <h2>Billing Details</h2>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input formControlName="name" placeholder="Enter your full name" />
+       <app-form-error [control]="checkoutForm.get('name')" [errorLabel]="'Full Name'"></app-form-error>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email</label>
+        <input formControlName="email" placeholder="example@email.com" />
+         <app-form-error [control]="checkoutForm.get('email')" [errorLabel]="'Email'"></app-form-error>
+      </div>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input formControlName="phone" placeholder="9876543210"  pattern="[0-9]*" />
+         <app-form-error [control]="checkoutForm.get('phone')" [errorLabel]="'Phone'"></app-form-error>
+      </div>
+    </div>
+
+        <div class="form-group">
+  <label>State</label>
+
+  <select formControlName="state">
+    <option value="">Select State</option>
+
+    <option *ngFor="let state of indiaStates" [value]="state">
+      {{ state }}
+    </option>
+
+  </select>
+   <app-form-error [control]="checkoutForm.get('state')" [errorLabel]="'State'"></app-form-error>
+</div>
+
+
+    <div class="form-group">
+      <label>Pin Code</label>
+      <input formControlName="pinCode"
+        placeholder="Pin Code"  pattern="[0-9]*" >
+         <app-form-error [control]="checkoutForm.get('pinCode')" [errorLabel]="'Pin Code'"></app-form-error>
+    </div>
+  
+      <div class="form-group">
+      <label>City</label>
+      <input formControlName="city"
+        placeholder="City" >
+         <app-form-error [control]="checkoutForm.get('city')" [errorLabel]="'City'"></app-form-error>
+    </div>
+  
+    <div class="form-group">
+      <label>Delivery Address</label>
+      <textarea formControlName="address"
+        placeholder="House no, Street, City, State, Pincode"></textarea>
+         <app-form-error [control]="checkoutForm.get('address')" [errorLabel]="'Delivery Address'"></app-form-error>
+    </div>
+  </div>
+
+  <!-- RIGHT : ORDER SUMMARY -->
+  <div class="checkout-right">
+    <h2>Order Summary</h2>
+
+    <div class="cart-item" *ngFor="let item of cartItems.items">
+      <div class="item-info">
+        <p class="item-name">{{ item.name }}</p>
+         <small> <span>{{item.feature}}</span>&nbsp;&nbsp;&nbsp;<span>Quantity: {{item.quantity}}</span>&nbsp;&nbsp;&nbsp;<span> {{ item.variantType}}: {{item.variantSize}}</span></small>
+      </div>
+      <div class="item-price">
+        {{ item.updatedprice | currency:'INR':'symbol':'1.0-0' }}
+      </div>
+    </div>
+
+    <div class="price-box">
+      <div class="row">
+        <span>Subtotal</span>
+        <span>{{ totalAmount | currency:'INR':'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="row">
+        <span>Shipping</span>
+        <span class="free">FREE</span>
+      </div>
+      <hr />
+      <div class="row total">
+        <span>Total Payable</span>
+        <span>{{ totalAmount | currency:'INR':'symbol':'1.0-0'}}</span>
+      </div>
+    </div>
+<div class="payment-mode">
+
+  <label class="payment-option">
+    <input type="radio" formControlName="paymentMode" value="online">
+    <span>Pay Online (Razorpay)</span>
+  </label>
+
+  <label class="payment-option">
+    <input type="radio" formControlName="paymentMode" value="cod">
+    <span>Cash on Delivery</span>
+  </label>
+
+</div>
+
+
+
+<button
+  type="button"
+  class="pay-btn"
+  (click)="placeOrder()"
+  [disabled]="checkoutForm.invalid">
+
+  {{ checkoutForm.value.paymentMode === 'cod' 
+      ? 'Place COD Order' 
+      : 'Pay Securely' }}
+
+</button>
+ 
+  </div>
+
+</form>

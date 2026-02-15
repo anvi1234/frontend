@@ -1,0 +1,29 @@
+<ng-container *ngIf="control && control.touched && control.invalid">
+  <div class="error" *ngIf="control.errors?.['required']">
+    {{errorLabel}} is required
+  </div>
+
+  <div class="error" *ngIf="control.errors?.['minlength']">
+    Minimum {{ control.errors?.['minlength']?.requiredLength }} characters required
+  </div>
+
+  <div class="error" *ngIf="control.errors?.['email']">
+    Please enter a valid {{ errorLabel }}
+  </div>
+
+  <div class="error" *ngIf="control.errors?.['maxlength']">
+    Maximum {{ control.errors?.['maxlength']?.requiredLength }} characters allowed
+  </div>
+
+  <div class="error" *ngIf="control.errors?.['min']">
+    Value must be greater than {{ control.errors?.['min']?.min }}
+  </div>
+
+  <div class="error" *ngIf="control.errors?.['max']">
+    Value must be less than {{ control.errors?.['max']?.max }}
+  </div>
+
+  <div class="error" *ngIf="control.errors?.['pattern']">
+    Invalid format
+  </div>
+</ng-container>

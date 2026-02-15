@@ -1,0 +1,44 @@
+ <div class="product-list-wrapper">
+     <div class="row">
+    <div class="col-sm-10">
+  <h2>Astro Consultation List</h2>
+    </div>
+   
+  
+   
+  </div>
+  <br>
+ 
+   <table class="product-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>BirthData</th>
+            <th>BirthTime</th>
+               <th>BirthPlace</th>
+                  <th>Consultaion Type</th>
+                   <th>Message</th>
+                       <th>Created At</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let cat of data; let i = index">
+          <td>{{ cat.name }}</td>
+          <td>{{ cat.email }}</td>
+            <td>{{ cat.phone }}</td>
+             <td>{{ cat.birthDate | date }}</td>
+                <td>{{ cat.birthTime  }}</td>
+                    <td>{{ cat.birthPlace  }}</td>
+                     <td>{{ cat.consultationType}}</td>
+                      <td>{{ cat.message}}</td>
+                       <td>{{ cat.createdAt | date}}</td>
+        
+        
+        </tr>
+      </tbody>
+    </table>
+  </div>
+

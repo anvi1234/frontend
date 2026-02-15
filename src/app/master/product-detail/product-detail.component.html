@@ -1,0 +1,115 @@
+<div class="product-page">
+
+  <!-- LEFT: IMAGE GALLERY -->
+  <div class="product-gallery">
+    <img [src]="selectedImage" class="main-image" />
+
+    <div class="thumbs" *ngIf="images.length >1">
+      <img *ngFor="let img of images" [src]="img.url" (click)="selectImage(img.url)"
+        [class.active]="img === selectedImage" />
+    </div>
+  </div>
+
+
+
+  <!-- RIGHT: PRODUCT INFO -->
+  <div class="product-info">
+
+    <span class="badge">Blessed Product ✨</span>
+
+    <h1>{{productDetail?.name}}</h1>
+    <p class="subtitle" *ngIf="productDetail?.subtitle">{{productDetail?.subtitle}}</p>
+
+    <!-- PRICE -->
+    <div class="price-box">
+      <span class="final-price">{{productDetail?.finalPrice | currency:'INR':'symbol':'1.0-0'}}/-</span>
+      <span  class="mrp"  *ngIf="productDetail && productDetail.discount>0">{{productDetail?.price | currency:'INR':'symbol':'1.0-0'}}/-</span>
+      <span class="discount" *ngIf="productDetail && productDetail.discount>0">{{productDetail?.discount | currency:'INR':'symbol':'1.0-0'}}% OFF</span>
+    </div>
+
+    <!-- RATINGS -->
+    <div class="rating">
+      ⭐⭐⭐⭐☆ <span>(124 Reviews)</span>
+    </div>
+
+
+    <!-- SHORT DESC -->
+    <p class="short-desc" [innerHTML]="productDetail?.shortDescription"></p>
+
+
+
+    <div class="variant-wrapper" *ngIf="productDetail && productDetail?.features?.length  ===  2">
+
+      <button class="variant-btn regular" [class.active]="activeFeatureIndex === 0"
+        (click)="clickOnFeature(productDetail.features[0].variants,0)">
+        {{ productDetail && productDetail.features[0].label}}
+      </button>
+
+      <button class="variant-btn premium" [class.active]="activeFeatureIndex === 1"
+        (click)="clickOnFeature(productDetail.features[1].variants,1)">
+        {{productDetail && productDetail.features[1].label}}
+      </button>
+    </div>
+
+
+    <!-- VARIANTS -->
+    <div class="variants">
+      <label>Select {{selectVariants[0]?.attribute}}</label>
+      <div class="variant-options">
+        <button *ngFor="let item of selectVariants; let i = index" (click)="setActive(i,item)"
+          [class.active]="activeIndexForSelectVariant === i">{{item.value}}</button>
+      </div>
+    </div>
+    <div class="quantity-wrapper">
+  <span class="qty-label">Quantity</span>
+
+  <div class="qty-box">
+    <button type="button" (click)="decreaseQty()">−</button>
+    <span>{{ quantity }}</span>
+    <button type="button" (click)="increaseQty()">+</button>
+  </div>
+</div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <button class="btn primary" (click)="cartName === 'AddtoCart' ? addToCart() : goToCart()">{{cartName === 'AddtoCart'? 'Add To Cart' : 'Go To Cart'}}</button>
+      <button class="btn outline">Buy Now</button>
+    </div>
+
+    <!-- DELIVERY -->
+    <div class="delivery">
+      🚚 Free Delivery | 🔄 7 Days Return | 🔒 Secure Payment
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<div class="product-container"> <!-- Left Column -->
+  <div class="product-info">
+    <h2 class="info-title">Product Details</h2>
+    <div class="info-item" *ngFor="let section of sections; let i = index" [class.active]="activeIndex === i">
+      <div class="info-header" (click)="toggleSection(i)">
+        <span *ngIf="section.key">{{ section.key }}</span> <span class="icon">{{ activeIndex === i ? '−' : '+' }}</span>
+      </div>
+      <div class="info-content"> 
+        <h5 *ngIf="section.title">{{section.title}}</h5>
+         <p  [innerHTML]="section.content"></p>
+        </div>
+    </div>
+  </div> <!-- Right Column -->
+  <div class="assurance-box">
+    <ul class="assurance-list">
+      <li> <span class="icon">🚚</span> <span>FREE Delivery Available</span> </li>
+      <li> <span class="icon">💰</span> <span>Cash on Delivery (COD) Available</span> </li>
+      <li> <span class="icon">🎥</span> <span> For Return / Exchange, share product video on <strong>9760558655</strong>
+        </span> </li>
+      <li> <span class="icon">✅</span> <span>100% Original Guarantee</span> </li>
+      <li> <span class="icon">🔄</span> <span>7 Days Return Policy (Orders under ₹12,000)</span> </li>
+      <li> <span class="icon">📦</span> <span>Delivery within 5–6 Working Days</span> </li>
+      <li> <span class="icon">📞</span> <span> Need Help? WhatsApp us at <strong>+91 9760558655</strong> </span> </li>
+    </ul>
+  </div>
+</div>

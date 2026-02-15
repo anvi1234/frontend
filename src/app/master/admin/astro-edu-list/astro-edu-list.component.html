@@ -1,0 +1,40 @@
+ <div class="product-list-wrapper">
+     <div class="row">
+    <div class="col-sm-10">
+  <h2>Astro Education List</h2>
+    </div>
+   
+  
+   
+  </div>
+  <br>
+ 
+   <table class="product-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Course</th>
+           <th>Experience Level</th>
+             <th>Message</th>
+               <th>Created At</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let cat of data; let i = index">
+          <td>{{ cat.name }}</td>
+          <td>{{ cat.email }}</td>
+          <td>{{ cat.phone }}</td>
+            <td>{{ cat.course }}</td>
+               <td>{{ cat.experienceLevel }}</td>
+                 <td>{{ cat.message }}</td>
+                    <td>{{ cat.createdAt | date }}</td>
+        
+        
+        </tr>
+      </tbody>
+    </table>
+  </div>
+

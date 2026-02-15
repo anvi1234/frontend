@@ -1,0 +1,152 @@
+/* Overlay */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Card */
+.auth-card {
+  background: #fff;
+  width: 380px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: popup 0.35s ease;
+}
+
+/* Animation */
+@keyframes popup {
+  from {
+    transform: translateY(40px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Close */
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #888;
+}
+.close-btn:hover {
+  color: #000;
+}
+
+/* Headings */
+.title {
+  text-align: center;
+  margin-bottom: 4px;
+}
+.subtitle {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Tabs */
+.tab-group {
+  display: flex;
+  background: #f1f1f1;
+  border-radius: 30px;
+  margin-bottom: 20px;
+}
+.tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 30px;
+}
+.tab.active {
+  background: rgb(252, 111, 0);
+  color: #fff;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Inputs */
+.input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+}
+.input-group i {
+  color: rgb(252, 111, 0);
+  margin-right: 8px;
+}
+.input-group input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+/* Buttons */
+.btn-primary {
+  background: rgb(252, 111, 0);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background: rgb(252, 111, 0);
+}
+
+.btn-outline {
+  background: #fff;
+  border: 1px solid rgb(252, 111, 0);
+  color: rgb(252, 111, 0);
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-outline:hover {
+  background: rgb(252, 111, 0);
+  color: #fff;
+}
+
+/* Divider */
+.divider {
+  text-align: center;
+  margin: 18px 0;
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* Bottom text */
+.bottom-text {
+  text-align: center;
+  font-size: 14px;
+}
+.bottom-text span {
+  color: rgb(252, 111, 0);
+  cursor: pointer;
+  font-weight: 600;
+}

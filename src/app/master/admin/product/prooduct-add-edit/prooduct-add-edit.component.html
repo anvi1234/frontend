@@ -1,0 +1,337 @@
+<div class="product-form-wrapper">
+  <form [formGroup]="productForm" class="product-form">
+
+    <h2>Add / Edit Product</h2>
+
+    <div class="form-group">
+      <label>Product Name <span class="required">*</span></label>
+      <input type="text" placeholder="Enter product name" formControlName="name" />
+       <app-form-error [control]="productForm.get('name')" [errorLabel]="'Product Name'"></app-form-error>
+    </div>
+     <div class="form-group">
+      <label>Sub Title </label>
+      <input type="text" placeholder="Enter Sub Title" formControlName="subtitle" />
+        
+    </div>
+
+    <div class="form-group">
+      <label>Short Description  <span class="required">*</span></label>
+      <quill-editor
+    formControlName="shortDescription"
+    [modules]="modules"
+   style="height: 200px;"
+    placeholder="Enter product short description"
+  ></quill-editor>
+      <app-form-error [control]="productForm.get('shortDescription')" [errorLabel]="'Short Desc'"></app-form-error>
+    </div>
+<br><br>
+
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Price (₹)  <span class="required">*</span></label>
+        <input type="number" placeholder="Price" formControlName="price" />
+         <app-form-error [control]="productForm.get('price')" [errorLabel]="'Price'"></app-form-error>
+    </div>
+  
+
+      <div class="form-group">
+        <label>Discount (%)  <span class="required">*</span></label>
+        <input type="number" placeholder="Discount" formControlName="discount" />
+         <app-form-error [control]="productForm.get('discount')" [errorLabel]="'Discount'"></app-form-error>
+    </div>
+   
+
+      <div class="form-group">
+        <label>Final Price</label>
+        <input type="number" placeholder="Final Price" formControlName="finalPrice" readonly />
+    </div>
+      </div>
+
+      <div class="form-group">
+      <label>Category  <span class="required">*</span></label>
+      <select  formControlName="category">
+        <option *ngFor="let item of categoriesData" [value]="item._id">{{item.name}}</option>
+      </select>
+        <app-form-error [control]="productForm.get('category')" [errorLabel]="'Category'"></app-form-error>
+    </div>
+
+    <div class="form-group">
+      
+      <label>Main Image  <span class="required">*</span></label>
+      <input type="file" accept="image/*" (change)="onMainImageSelect($event)" />
+      <div *ngIf="existingMainImage" class="image-preview">
+  <img [src]="existingMainImage.url" height="120" />
+  <span class="danger" (click)="removeMainImage()">❌ Remove</span>
+</div>
+
+    </div>
+
+    <div class="form-group">
+      
+      <label>Gallery Images <span>(Max 6)</span> </label>
+      <input type="file" multiple accept="image/*" (change)="onImagesSelect($event)" />
+      <div class="gallery-preview">
+  <div *ngFor="let img of existingGalleryImages; let i = index">
+    <img [src]="img.url" height="100" />
+    <span class="danger" (click)="removeExistingGalleryImage(img, i)">
+      ❌
+    </span>
+  </div>
+</div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Stock</label>
+        <input type="number" placeholder="Available stock" formControlName="stock" />
+      </div>
+
+ 
+
+
+      <div class="form-group switch-group">
+        <label>Active</label>
+        <label class="switch">
+          <input type="checkbox" formControlName="isActive" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+<!-- ================= FEATURES ================= -->
+<div class="form-group" formArrayName="features">
+  <h3>Plans / Features</h3>
+
+  <button type="button" class="add-btn" (click)="addFeature()">
+    + Add Feature
+  </button>
+
+  <!-- FEATURE LOOP -->
+  <div
+    *ngFor="let f of features.controls; let i = index"
+    [formGroupName]="i"
+    class="feature-card"
+  >
+    <!-- FEATURE HEADER -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Plan Type <span class="required">*</span></label>
+        <select
+          formControlName="label"
+          (change)="onFeatureChange(i)"
+        >
+          <option value="">Select Plan</option>
+          <option *ngFor="let t of featureTypes" [value]="t">
+            {{ t }}
+          </option>
+        </select>
+        <app-form-error
+  [control]="getFeatureGroup(i).get('label')"
+  errorLabel="Plan Type"
+></app-form-error>
+      </div>
+
+      <div class="form-group align-end">
+        <span  class="danger" (click)="removeFeature(i)">
+          ❌ Remove Feature
+        </span>
+      </div>
+    </div>
+
+    <!-- ================= VARIANTS ================= -->
+    <div formArrayName="variants" class="variants-wrapper"  *ngIf="getVariants(i).controls.length >= 1">
+      <h4 >Variants</h4>
+
+      <button
+      *ngIf="getVariants(i).controls.length >= 1"
+        type="button"
+        class="add-btn small"
+        (click)="addVariant(i)"
+      >
+        + Add Variant
+      </button>
+
+      <!-- VARIANT LOOP -->
+      <div
+        *ngFor="let v of getVariants(i).controls; let j = index"
+        [formGroupName]="j"
+        class="variant-card"
+      >
+        <span class="variant-badge">Variant {{ j + 1 }}</span>
+        <div class="form-row">
+          <!-- ATTRIBUTE -->
+          <div class="form-group">
+            <label>Attribute <span class="required">*</span></label>
+            <select formControlName="attribute" class="form-control">
+              <option value="">Select</option>
+              <option *ngFor="let a of attributes" [value]="a.value">
+                {{ a.label }}
+              </option>
+            </select>
+            <app-form-error
+  [control]="getVariantGroup(i, j).get('attribute')"
+  errorLabel="Attribute"
+></app-form-error>
+          </div>
+
+          <!-- VALUE -->
+          <div class="form-group">
+            <label>Value <span class="required">*</span></label>
+            <input
+              type="text"
+              formControlName="value"
+              placeholder="Large / 500g"
+            />
+            <app-form-error
+  [control]="getVariantGroup(i, j).get('value')"
+  errorLabel="Value"
+></app-form-error>
+          </div>
+
+          <!-- PRICE -->
+          <div class="form-group">
+            <label>Price (₹) <span class="required">*</span></label>
+            <input
+              type="number"
+              formControlName="price"
+            />
+            <app-form-error
+  [control]="getVariantGroup(i, j).get('price')"
+  errorLabel="Price"
+></app-form-error>
+          </div>
+
+          <!-- DISCOUNT -->
+          <div class="form-group">
+            <label>Discount (%) <span class="required">*</span></label>
+            <input
+              type="number"
+              formControlName="discountPercent"
+            />
+            <app-form-error
+  [control]="getVariantGroup(i, j).get('discountPercent')"
+  errorLabel="Discount"
+></app-form-error>
+          </div>
+
+          <!-- FINAL PRICE -->
+          <div class="form-group">
+            <label>Final Price</label>
+            <input
+              type="number"
+              formControlName="finalPrice"
+          
+            />
+          </div>
+
+          <!-- SKU -->
+          <div class="form-group">
+            <label>SKU</label>
+            <input
+              type="text"
+              formControlName="sku"
+            />
+          </div>
+
+          <!-- STOCK -->
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" formControlName="inStock" />
+              In Stock
+            </label>
+          </div>
+
+          <!-- REMOVE VARIANT -->
+          <div class="form-group align-end">
+            <span
+              
+              class="danger"
+              (click)="removeVariant(i, j)"
+            >
+              ❌ Remove Variant
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- END VARIANT LOOP -->
+
+    </div>
+    <!-- END VARIANTS -->
+
+  </div>
+  <!-- END FEATURE LOOP -->
+</div>
+
+
+<div class="form-group" formArrayName="sections">
+  <label>Sections</label>
+
+  <button type="button" (click)="addSection()" class="add-btn">+ Add Section</button>
+
+  <div
+    *ngFor="let s of sections.controls; let i = index"
+    [formGroupName]="i"
+    class="section-card"
+  >
+  <div class="form-row">
+<div class="form-group">
+   <label>Benefits <span class="required">*</span> </label>
+      <input
+      type="text"
+      formControlName="key"
+      placeholder="Key (benefits, how-to-wear)"
+    />
+    <app-form-error
+  [control]="getSectionGroup(i).get('key')"
+  errorLabel="Benefits"
+></app-form-error>
+</div>
+</div>
+ <div class="form-row">
+<div class="form-group">
+    <label>Title </label>
+  <input
+      type="text"
+      formControlName="title"
+      placeholder="Section Title"
+    />
+    
+</div>
+<div class="form-group">
+   <label>Is Collapsed?</label>
+  <label class="checkbox">
+      <input type="checkbox" formControlName="collapsed" />
+      Collapsed by default
+    </label>
+</div>
+
+<div class="form-group">
+   <label>Content <span class="required">*</span></label>
+      <quill-editor
+    formControlName="content"
+    [modules]="modules"
+   style="height: 200px;"
+    placeholder="HTML or text content"
+  ></quill-editor>
+   
+      <app-form-error
+  [control]="getSectionGroup(i).get('content')"
+  errorLabel="Content"
+></app-form-error>
+</div>
+
+  <span  (click)="removeSection(i)">❌</span>
+  </div>
+  </div>
+  
+</div>
+
+
+
+
+
+
+    <button type="button" (click)="submit()" class="submit">Save Product</button>
+
+  </form>
+</div>

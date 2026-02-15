@@ -1,0 +1,143 @@
+<!-- Start Main Top -->
+
+
+<div class="main-top">
+  <div class="container-fluid">
+    <div class="top-bar">
+
+      <!-- Social Icons -->
+      <div class="top-left">
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item">
+            <a href="https://facebook.com" target="_blank">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://instagram.com" target="_blank">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://youtube.com" target="_blank">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Offer Text -->
+      <div class="top-center">
+        <div id="offer-box" class="carouselTicker">
+          <ul class="offer-box">
+            <li><i class="fab fa-opencart"></i> 20% off Entire Purchase</li>
+            <li><i class="fab fa-opencart"></i> New Launch 💫</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- User Icon -->
+      <div class="top-right">
+        <i class="fa fa-user user-icon" (click)="toggleUserMenu()"></i>
+      </div>
+<div class="user-dropdown-box" *ngIf="isUserMenuOpen">
+  <a><span class="menu-text" *ngIf="!authSer.isLoggedIn()" (click)="loginPopup()"><i class="fa fa-user-circle"></i> My Account </span><span class="menu-text"  *ngIf="authSer.isLoggedIn()" (click)="loginPopup()"><i class="fa fa-user-circle"></i> <span style="font-size: 12px;">{{userName}}</span></span></a><!----><!---->
+  <a  ><span class="menu-text" (click)="navigateToOrder()"><i class="fa fa-list"></i> My Orders  </span></a>
+  <a ><span class="menu-text"><i class="fa fa-truck"></i> Track Your Order </span></a><hr>
+  <a class="logout" (click)="logout()"><span class="menu-text"><i class="fa fa-sign-out"></i> Logout </span></a></div>
+    </div>
+  </div>
+</div>
+
+<!-- End Main Top -->
+
+<!-- Start Main Top -->
+<header class="main-header">
+  <!-- Start Navigation -->
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav"
+  >
+    <div class="container">
+      <!-- Start Header Navigation -->
+      <div class="navbar-header">
+         <button class="navbar-toggler" type="button" (click)="toggleMenu()">
+        <i class="fa fa-bars"></i>
+      </button>
+        <a class="logo-title" style="color:rgb(252, 111, 0)"
+          >Ashirvad Rudraksh & Gems</a>
+      </div>
+      <!-- End Header Navigation -->
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="navbar-collapse" id="navbar-menu"  [class.show]="isMenuOpen">
+        <ul
+          class="nav navbar-nav ml-auto"
+          data-in="fadeInDown"
+          data-out="fadeOutUp"
+        >
+          <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link" routerLink="/" (click)="closeMobileMenu()">Home</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" (click)="closeMobileMenu()" routerLink="/about-us"  routerLinkActive="router-link-active" >About Us</a>
+          </li>
+          <li class="nav-item user-menu" routerLinkActive="active">
+            <a
+            
+              class="nav-text nav-link dropdown-toggle arrow"
+              (click)="toggleCategory()"
+              >All Product</a
+            >
+
+            <div class="user-dropdown-box" *ngIf="isCategoryOpen">
+              <a  *ngFor="let item of categoryData"  (click)="navigate(item.slug)">
+                <span class="menu-text">
+                  <a>{{item.name}}</a>
+                </span>
+              </a>
+
+            </div>
+          </li>
+
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/astro-consultation">Astro Consultation</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/astro-education">Astro Education</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+
+      <!-- Start Atribute Navigation -->
+      <div class="attr-nav">
+        <ul>
+         
+          <li class="side-menu" style="cursor: pointer;">
+            <a (click)="addToCart()">
+              <i class="fa fa-shopping-bag"></i>
+              <span class="badge">{{cartCount}}</span>
+              <p>My Cart</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- End Atribute Navigation -->
+    </div>
+    <!-- Start Side Menu -->
+
+    <!-- End Side Menu -->
+  </nav>
+  <!-- End Navigation -->
+</header>
+<div class="top-search">
+  <div class="container">
+    <div class="input-group">
+      <span class="input-group-addon"><i class="fa fa-search"></i></span>
+      <input type="text" class="form-control" placeholder="Search" />
+      <span class="input-group-addon close-search"
+        ><i class="fa fa-times"></i
+      ></span>
+    </div>
+  </div>
+</div>

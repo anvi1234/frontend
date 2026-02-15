@@ -1,0 +1,91 @@
+<div class="astro-form-card">
+  <h2 class="form-title">Astro Consultation</h2>
+  <p class="form-subtitle">Get personalized guidance from expert astrologers</p>
+
+  <form [formGroup]="form" >
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input formControlName="name" placeholder="Enter your name" />
+       <app-form-error
+          [control]="form.get('name')"
+          errorLabel="Full Name">
+        </app-form-error>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email</label>
+        <input formControlName="email" placeholder="Enter email" />
+           <app-form-error
+          [control]="form.get('email')"
+          errorLabel="Email">
+        </app-form-error>
+        
+      </div>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input formControlName="phone" placeholder="Enter phone" />
+           <app-form-error
+          [control]="form.get('phone')"
+          errorLabel="Phone">
+        </app-form-error>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Birth Date</label>
+        <input type="date" formControlName="birthDate" />
+         <app-form-error
+          [control]="form.get('birthDate')"
+          errorLabel="Birth Date">
+        </app-form-error>
+      </div>
+
+      <div class="form-group">
+        <label>Birth Time</label>
+        <input formControlName="birthTime" placeholder="HH:MM AM/PM" />
+         <app-form-error
+          [control]="form.get('birthTime')"
+          errorLabel="Birth Time">
+        </app-form-error>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Birth Place</label>
+      <input formControlName="birthPlace" placeholder="City, Country" />
+       <app-form-error
+          [control]="form.get('birthPlace')"
+          errorLabel="Birth Place">
+        </app-form-error>
+    </div>
+
+    <div class="form-group">
+      <label>Consultation Type</label>
+      <select formControlName="consultationType">
+        <option value="">Select Type</option>
+        <option value="Career">Career</option>
+        <option value="Marriage">Marriage</option>
+        <option value="Finance">Finance</option>
+          <option value="Other">Other</option>
+      </select>
+         <app-form-error
+          [control]="form.get('consultationType')"
+          errorLabel="Consultation Type">
+        </app-form-error>
+    </div>
+
+    <div class="form-group">
+      <label>Your Message</label>
+      <textarea formControlName="message" placeholder="Write your concern"></textarea>
+    </div>
+
+    <button class="submit-btn" type="submit" (click)="submit()">
+      Submit Enquiry
+    </button>
+
+  </form>
+</div>

@@ -1,1 +1,123 @@
-/* You can add global styles to this file, and also import other style files */
+  /* background-color: rgba(252, 248, 229) !important; */
+
+  /* rgb(252, 111, 0) -- orange */
+
+  body{
+    font-family: sans-serif !important
+  }
+  .primary {
+  background: rgb(252, 111, 0);
+  border: none;
+  color: #fff;
+}
+
+.outline {
+  border: 2px solid rgb(252, 111, 0);
+  background: #fff;
+  color: #ff9800;
+}
+
+.primary:hover {
+  background: rgb(252, 111, 0)0;
+}
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  background-color: #25d366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 25px rgba(37, 211, 102, 0.4);
+  z-index: 999;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float img {
+  width: 32px;
+  height: 32px;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+#mu-slider {
+  display: inline;
+  float: left;
+  width: 100%;
+}
+#mu-slider .mu-slider-single {
+  display: inline;
+  float: left;
+  width: 100%;
+  position: relative;
+}
+#mu-slider .mu-slider-single .mu-slider-img {
+  display: inline;
+  float: left;
+  width: 100%;
+  height: 500px;
+}
+#mu-slider .mu-slider-single .mu-slider-img:after {
+  
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+#mu-slider .mu-slider-single .mu-slider-img figure {
+  height: 100%;
+  width: 100%;
+}
+#mu-slider .mu-slider-single .mu-slider-img figure img {
+  width: 100%;
+  height: 100%;
+}
+#mu-slider .mu-slider-single .mu-slider-content {
+  color: #fff;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20%;
+  padding: 0 15%;
+  width: 100%;
+  text-align: center;
+  height: 100%;
+}
+#mu-slider .mu-slider-single .mu-slider-content h4 {
+  letter-spacing: 1px;
+  margin-bottom: 0;
+}
+#mu-slider .mu-slider-single .mu-slider-content span {
+  display: inline-block;
+  height: 1px;
+  width: 100px;
+}
+#mu-slider .mu-slider-single .mu-slider-content h2 {
+  font-size: 50px;
+  line-height: 80px;
+  margin-bottom: 10px;
+}
+#mu-slider .mu-slider-single .mu-slider-content p {
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  line-height: 28px;
+}
+#mu-slider .mu-slider-single .mu-slider-content a {
+  margin-top: 25px;
+}
+#mu-slider .slick-prev,
+#mu-slider .slick-next {
+  height: 60px;
+  width: 60px;
+}
+#mu-slider .slick-prev:before,
+#mu-slider .slick-next:before {
+  color: #fff;
+  font-size: 25px;
+}

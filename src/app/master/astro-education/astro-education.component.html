@@ -1,0 +1,86 @@
+<div class="astro-form-card">
+  <h2 class="form-title">Astro Education</h2>
+<p class="form-subtitle">Begin your journey into the science of astrology</p>
+
+ <div class="course-wrapper">
+    <div class="course-card">
+      <h3>Basic Astrology</h3>
+      <p class="duration">Duration: 3 Months</p>
+      <p class="price">₹21,000</p>
+    </div>
+
+    <div class="course-card highlight">
+      <h3>Advanced Astrology</h3>
+      <p class="duration">Duration: 3 Months</p>
+      <p class="price">₹31,000</p>
+    </div>
+
+    <div class="course-card">
+      <h3>Palmistry</h3>
+      <p class="duration">Short Course</p>
+      <p class="price">₹599</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form">
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input formControlName="name" placeholder="Enter your name" />
+        <app-form-error
+          [control]="form.get('name')"
+          errorLabel="Full Name">
+        </app-form-error>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email</label>
+        <input formControlName="email" placeholder="Enter email" />
+       <app-form-error
+          [control]="form.get('email')"
+          errorLabel="Email">
+        </app-form-error>
+      </div>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input formControlName="phone" placeholder="Enter phone" />
+         <app-form-error
+          [control]="form.get('phone')"
+          errorLabel="Phone">
+        </app-form-error>
+      </div>
+    </div>
+
+  <div class="form-group">
+        <label>Course</label>
+        <input formControlName="course" placeholder="Enter Course" />
+          <app-form-error
+          [control]="form.get('course')"
+          errorLabel="Course">
+        </app-form-error>
+
+    </div>
+      <div class="form-group">
+        <label>Experience Level</label>
+        <input formControlName="experienceLevel" placeholder="Enter Experience Level Begineer, Intermediate, Advance" />
+         <app-form-error
+          [control]="form.get('experienceLevel')"
+          errorLabel="Experience Level">
+        </app-form-error>
+
+    </div>
+
+
+    <div class="form-group">
+      <label>Your Message</label>
+      <textarea formControlName="message" placeholder="Write your concern"></textarea>
+    </div>
+
+    <button class="submit-btn" type="submit" (click)="submit()">
+      Submit
+    </button>
+
+  </form>
+</div>

@@ -1,0 +1,200 @@
+<!-- AUTH POPUP -->
+<div class="auth-overlay" *ngIf="showAuthPopup">
+  <div class="auth-card">
+
+    <!-- Close -->
+    <span class="close-btn" (click)="closePopup()">×</span>
+
+    <!-- Header -->
+    <h2 class="title">
+      {{ activeTab === 'login' ? 'Welcome Back 👋' : 'Create Account ✨' }}
+    </h2>
+
+    <p class="subtitle">
+      {{ activeTab === 'login'
+        ? 'Login using password or OTP'
+        : 'Register with email verification OTP' }}
+    </p>
+
+    <!-- Error message -->
+    <p class="error-text" *ngIf="message" style="color:red">{{ message }}</p>
+     <p class="error-text" *ngIf="successmessage" style="color:green">{{ successmessage }}</p>
+
+    <!-- Tabs -->
+    <div class="tab-group">
+      <button
+        class="tab"
+        [class.active]="activeTab === 'login'"
+        (click)="switchTab('login')">
+        Login
+      </button>
+
+      <button
+        class="tab"
+        [class.active]="activeTab === 'register'"
+        (click)="switchTab('register')">
+        Register
+      </button>
+    </div>
+
+    <!-- ================= LOGIN ================= -->
+    <form
+      *ngIf="activeTab === 'login'"
+      [formGroup]="loginForm"
+      class="form"
+     >
+
+      <!-- Email -->
+      <div class="input-group">
+        <i class="fa fa-envelope"></i>
+        <input
+          type="email"
+          placeholder="Email Address"
+          formControlName="email" />
+        <app-form-error
+          [control]="loginForm.get('email')"
+          errorLabel="Email Address">
+        </app-form-error>
+      </div>
+
+      <!-- Password -->
+      <div class="input-group" *ngIf="!loginViaOTP">
+        <i class="fa fa-lock"></i>
+        <input
+          type="password"
+          placeholder="Password (optional for OTP login)"
+          formControlName="password" />
+        <app-form-error
+          [control]="loginForm.get('password')"
+          errorLabel="Password">
+        </app-form-error>
+      </div>
+       <!-- OTP -->
+      <div class="input-group" *ngIf="loginViaOTP">
+        <i class="fa fa-key"></i>
+        <input
+          type="text"
+          placeholder="Enter OTP"
+          formControlName="otp" />
+           <app-form-error
+          [control]="loginForm.get('otp')"
+          errorLabel="OTP">
+        </app-form-error>
+      </div>
+      <!-- Send OTP -->
+    <div class="toggle-login">
+    <input
+      type="checkbox"
+      id="loginType"
+      [checked]="loginViaOTP"
+      (change)="changeLoginMethod($event)" />
+    <label for="loginType">
+      Login via OTP
+    </label>
+  </div>
+
+      <!-- Submit -->
+      <button class="btn-primary" type="submit" (click)="submitLogin()">
+       {{loginOtpSent ? "Verify OTP" : 'Login'}}
+      </button>
+    </form>
+
+    <!-- ================= REGISTER ================= -->
+    <form
+      *ngIf="activeTab === 'register'"
+      [formGroup]="registerForm"
+      class="form"
+   >
+
+      <!-- Name -->
+      <div class="input-group">
+        <i class="fa fa-user"></i>
+        <input
+          type="text"
+          placeholder="Full Name"
+          formControlName="name" />
+        <app-form-error
+          [control]="registerForm.get('name')"
+          errorLabel="Full Name">
+        </app-form-error>
+      </div>
+
+      <!-- Email -->
+      <div class="input-group">
+        <i class="fa fa-envelope"></i>
+        <input
+          type="email"
+          placeholder="Email Address"
+          formControlName="email" />
+        <app-form-error
+          [control]="registerForm.get('email')"
+          errorLabel="Email Address">
+        </app-form-error>
+      </div>
+
+      <!-- Phone -->
+      <div class="input-group">
+        <i class="fa fa-phone"></i>
+        <input
+          type="text"
+          placeholder="Mobile Number"
+          formControlName="phone" />
+        <app-form-error
+          [control]="registerForm.get('phone')"
+          errorLabel="Mobile Number">
+        </app-form-error>
+      </div>
+
+      <!-- Password -->
+      <div class="input-group">
+        <i class="fa fa-lock"></i>
+        <input
+          type="password"
+          placeholder="Create Password"
+          formControlName="password" />
+        <app-form-error
+          [control]="registerForm.get('password')"
+          errorLabel="Password">
+        </app-form-error>
+      </div>
+
+      <!-- Send Email OTP -->
+  
+
+      <!-- OTP -->
+      <div class="input-group" *ngIf="registerOtpSent">
+        <i class="fa fa-key"></i>
+        <input
+          type="text"
+          placeholder="Enter Email OTP"
+          formControlName="otp" />
+           <app-form-error
+          [control]="registerForm.get('otp')"
+          errorLabel="OTP">
+        </app-form-error>
+      </div>
+
+          <button
+      *ngIf="registerOtpSent"
+        type="button"
+        class="btn-outline"
+      
+        (click)="verifyRegisterOtp()">
+        {{ !registerOtpSent ? 'OTP Sent' : 'Verify Email' }}
+      </button>
+      <!-- Submit -->
+      <button   *ngIf="!registerOtpSent" class="btn-primary" type="submit" (click)="submitRegistration()">
+        Register
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <p class="bottom-text">
+      {{ activeTab === 'login' ? 'New user?' : 'Already have an account?' }}
+      <span (click)="switchTab(activeTab === 'login' ? 'register' : 'login')">
+        {{ activeTab === 'login' ? 'Register' : 'Login' }}
+      </span>
+    </p>
+
+  </div>
+</div>

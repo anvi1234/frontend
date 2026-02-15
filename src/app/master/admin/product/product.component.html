@@ -1,0 +1,63 @@
+<div class="product-list-wrapper">
+   <div class="row">
+    <div class="col-sm-10">
+  <h2>Product List</h2>
+    </div>
+    <div class="col-sm-2">
+ <button class="add-btn" (click)="navigate()">+ Add Product</button>
+    </div>
+
+  
+   
+  </div>
+  <br>
+
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Final Price</th>
+        <th>Stock</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>
+          <img
+            [src]="product.mainImage.url"
+            alt="product"
+            class="product-img"
+          />
+        </td>
+        <td>
+          <strong>{{ product.name }}</strong>
+          <p class="desc">{{ product.description }}</p>
+        </td>
+        <td>₹{{ product.price }}</td>
+        <td>{{ product.discount }}%</td>
+        <td><strong>₹{{ product.finalPrice }}</strong></td>
+        <td>{{ product.stock }}</td>
+        <td>
+          <span
+            class="status"
+            [class.active]="product.isActive"
+            [class.inactive]="!product.isActive"
+          >
+            {{ product.isActive ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+        <td class="actions">
+          <button class="edit" (click)="edit(product._id)">Edit</button>
+          <button class="delete" (click)="deleteProduct(product._id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

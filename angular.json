@@ -23,22 +23,45 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+             "src/styles.css",
+  "src/assets/css/bootstrap.min.css",
+  "src/assets/css/style.css",
+  "src/assets/css/responsive.css",
+  "src/assets/css/custom.css",
+   "node_modules/quill/dist/quill.snow.css"
             ],
-            "scripts": []
+           "scripts": [
+  "src/assets/js/jquery-3.2.1.min.js",
+  "src/assets/js/popper.min.js",
+  "src/assets/js/bootstrap.min.js",
+
+  "src/assets/js/jquery.superslides.min.js",
+  "src/assets/js/bootstrap-select.js",
+  "src/assets/js/inewsticker.js",
+  "src/assets/js/bootsnav.js",
+  "src/assets/js/images-loded.min.js",
+  "src/assets/js/isotope.min.js",
+  "src/assets/js/owl.carousel.min.js",
+  "src/assets/js/baguetteBox.min.js",
+  "src/assets/js/form-validator.min.js",
+  "src/assets/js/contact-form-script.js",
+  "src/assets/js/custom.js"
+]
+
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                    "maximumWarning": "1.5mb",
+  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                 "maximumWarning": "10kb",
+    "maximumError": "15kb"
                 }
               ],
               "fileReplacements": [
@@ -89,13 +112,38 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.css"
+                      "styles": [
+                        "node_modules/bootstrap/dist/css/bootstrap.min.css",
+             "src/styles.css",
+  "src/assets/css/bootstrap.min.css",
+  "src/assets/css/style.css",
+  "src/assets/css/responsive.css",
+  "src/assets/css/custom.css",
+   "node_modules/quill/dist/quill.snow.css"
             ],
-            "scripts": []
+           "scripts": [
+  "src/assets/js/jquery-3.2.1.min.js",
+  "src/assets/js/popper.min.js",
+  "src/assets/js/bootstrap.min.js",
+
+  "src/assets/js/jquery.superslides.min.js",
+  "src/assets/js/bootstrap-select.js",
+  "src/assets/js/inewsticker.js",
+  "src/assets/js/bootsnav.js",
+  "src/assets/js/images-loded.min.js",
+  "src/assets/js/isotope.min.js",
+  "src/assets/js/owl.carousel.min.js",
+  "src/assets/js/baguetteBox.min.js",
+  "src/assets/js/form-validator.min.js",
+  "src/assets/js/contact-form-script.js",
+  "src/assets/js/custom.js"
+]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "f5a99664-6be2-4272-a8dc-2e6c0b399d0b"
   }
 }

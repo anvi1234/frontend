@@ -1,0 +1,492 @@
+.product-list-wrapper {
+  padding: 30px;
+  background: #f5f7fb;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.list-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.add-btn {
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #6c63ff, #5146ff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.add-btn:hover {
+  opacity: 0.9;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.product-table th,
+.product-table td {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.product-table thead {
+  background: #6c63ff;
+  color: white;
+}
+
+.product-table tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.product-table tbody tr:hover {
+  background: #f9f9ff;
+}
+
+.product-img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.desc {
+  font-size: 12px;
+  color: #777;
+  margin: 4px 0 0;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status */
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.active {
+  background: #e6f7ed;
+  color: #2e7d32;
+}
+
+.status.inactive {
+  background: #fdecea;
+  color: #c62828;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actions button {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.actions .edit {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.actions .delete {
+  background: #fdecea;
+  color: #c62828;
+}
+
+.actions button:hover {
+  opacity: 0.85;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .product-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+.product-form-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  background: #f5f7fb;
+}
+
+.product-form {
+  background: #ffffff;
+  padding: 30px;
+  width: 100%;
+  max-width: 750px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.product-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: black;
+}
+
+.form-group span {
+  font-size: 12px;
+  color: black;
+}
+.form-group label  .required{
+  color:red
+}
+.form-group input,
+.form-group textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.form-group textarea {
+  resize: none;
+  min-height: 90px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #6c63ff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.15);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+/* Button */
+.submit{
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #6c63ff, #5146ff);
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.add-btn{
+    width: 20%;
+  padding: 5px;
+  background: linear-gradient(135deg, #6c63ff, #5146ff);
+  color: white;
+  font-size: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(108, 99, 255, 0.3);
+}
+
+/* Switch */
+.switch-group {
+  align-items: flex-start;
+}
+
+.switch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 24px;
+  inset: 0;
+  transition: 0.4s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.switch input:checked + .slider {
+  background-color: #6c63ff;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(24px);
+}
+/* OUTER BORDER AROUND VARIANTS */
+.variants-wrapper {
+  border: 2px solid #e0e0e0;
+  padding: 16px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+/* Variants title */
+.variants-wrapper h4 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Add variant button spacing */
+.variants-wrapper .add-btn {
+  margin-bottom: 12px;
+}
+
+/* INDIVIDUAL VARIANT CARD */
+.variant-card {
+  border: 1px dashed #c5c5c5;
+  padding: 14px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  background: #ffffff;
+  position: relative;
+}
+
+/* FORM ROW SPACING */
+.variant-card .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* FORM GROUP WIDTH */
+.variant-card .form-group {
+  flex: 1 1 180px;
+}
+
+/* REMOVE BUTTON */
+.variant-card .danger {
+  color: #ff4d4f;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Checkbox alignment */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+/* OPTIONAL: Hover effect */
+.variant-card:hover {
+  border-color: #1890ff;
+  background-color: #fefefe;
+}
+
+.variant-badge {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background: #1890ff;
+  color: white;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: 4px;
+}
+/* OUTER BORDER FOR ALL SECTIONS */
+.form-group[formArrayName="sections"] {
+  border: 2px solid #e0e0e0;
+  padding: 16px;
+  margin-top: 24px;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+/* SECTION CARD (EACH SECTION) */
+.section-card {
+  border: 1px solid #d9d9d9;
+  padding: 16px;
+  margin-top: 16px;
+  border-radius: 8px;
+  background: #ffffff;
+  position: relative;
+}
+
+/* FORM ROW LAYOUT */
+.section-card .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* FORM GROUP WIDTH */
+.section-card .form-group {
+  flex: 1 1 220px;
+}
+
+/* CONTENT TEXTAREA FULL WIDTH */
+.section-card textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* REMOVE SECTION ICON */
+.section-card span {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* SECTION HOVER EFFECT */
+.section-card:hover {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 1px rgba(24, 144, 255, 0.1);
+}
+
+/* COLLAPSE CHECKBOX ALIGNMENT */
+.section-card .checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+/* OUTER BORDER FOR ALL FEATURES */
+.form-group[formArrayName="features"] {
+  border: 2px solid #e0e0e0;
+  padding: 18px;
+  margin-top: 24px;
+  color:black;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+/* FEATURE CARD (Classic / Premium) */
+.feature-card {
+  border: 2px solid #bfbfbf;
+  padding: 18px;
+  margin-top: 16px;
+  border-radius: 10px;
+  background: #ffffff;
+  position: relative;
+}
+
+/* FEATURE HEADER ROW */
+.feature-card .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+/* FEATURE FORM GROUP WIDTH */
+.feature-card .form-group {
+  flex: 1 1 220px;
+}
+
+/* REMOVE FEATURE */
+.feature-card .danger {
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* FEATURE HOVER EFFECT */
+.feature-card:hover {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.12);
+}
+
+/* FEATURE TITLE */
+.feature-card label {
+  font-weight: 600;
+}
+
+/* ALIGN REMOVE BUTTON */
+.align-end {
+  display: flex;
+  justify-content: flex-end;
+}
+select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+/* Focus */
+select:focus {
+  outline: none;
+  border-color: #ff9800;
+  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+}
+
+/* Disabled */
+select:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+}
+
+::ng-deep .ql-container.ql-snow {
+  border: 1px solid #ccc; /* your custom border */        /* optional rounded corners */
+ height: 200px;         /* adjust editor height */
+  background-color: #f9f9f9;  /* optional background */
+}

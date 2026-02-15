@@ -1,0 +1,62 @@
+
+  <div class="cart-actions" *ngIf="cartDetails?.items?.length">
+    <button class="clear-cart-btn" (click)="clearCart()">
+      Clear 🛒
+    </button>
+  </div>
+ <div class="empty-cart" *ngIf="!cartDetails?.items?.length">
+  <div class="empty-cart-box">
+    <div class="cart-icon">🛒</div>
+    <h3>Your cart is empty</h3>
+    <p>No product in cart</p>
+    <button class="shop-btn" (click)="goToShop()">Continue Shopping</button>
+  </div>
+</div>
+
+<div class="container">
+   
+   <!-- CART ACTIONS (TOP) -->
+
+  <!-- Products List -->
+  <div class="products">
+    <div class="product-card" *ngFor="let product of cartDetails?.items; let i= index">
+      <img [src]="product.image" alt="{{product.name}}" class="product-image">
+      <div class="product-details">
+        <h3>{{ product.name }}</h3>
+      <div class="product-meta">
+  <span *ngIf="product.feature">{{ product.feature }}</span>
+  <span *ngIf="product.quantity">Quantity: {{ product.quantity }}</span>
+  <span *ngIf="product.variantType">
+    {{ product.variantType }}: {{ product.variantSize }}
+  </span>
+</div>
+        <span class="price" *ngIf="product.updatedprice">₹{{ product.updatedprice }}/-</span>
+
+        <!-- Quantity Selector -->
+        <div class="quantity-control">
+          <button (click)="decreaseQuantity(product)">−</button>
+          <span>{{ product.quantity }}</span>
+          <button (click)="increaseQuantity(product)">+</button>
+        </div>
+      </div>
+    <button
+  class="remove-btn icon-remove"
+  (click)="removeProduct(product.productId)"
+  aria-label="Remove item"
+>
+  ✕
+</button>
+
+    </div>
+  </div>
+
+  <!-- Cart Summary -->
+  <div class="cart-summary"  *ngIf="cartDetails?.items?.length">
+    <h2>Cart Summary</h2>
+    <div class="total">
+      <span>Total:</span>
+      <span>₹{{ totalPrice }}/-</span>
+    </div>
+    <button class="checkout-btn" (click)="checkout()">Checkout</button>
+  </div>
+</div>
