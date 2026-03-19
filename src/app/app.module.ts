@@ -7,7 +7,7 @@ import { HeaderComponent } from './master/header/header.component';
 import { HomeComponent } from './master/home/home.component';
 import { AboutComponent } from './master/about/about.component';
 import { AdminComponent } from './master/admin/admin.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminService } from './shared/admin.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProductComponent } from './master/admin/product/product.component';
@@ -35,6 +35,10 @@ import { PrivacyandpolicyComponent } from './master/privacyandpolicy/privacyandp
 import { TermofserviceComponent } from './master/termofservice/termofservice.component';
 import { ShippingpolicyComponent } from './master/shippingpolicy/shippingpolicy.component';
 import { FooterComponent } from './master/footer/footer.component';
+import { BannerListComponent } from './master/admin/banner/banner-list/banner-list.component';
+import { BannerAddEditComponent } from './master/admin/banner/banner-add-edit/banner-add-edit.component';
+import { SucessPageComponent } from './master/sucess-page/sucess-page.component';
+import { OrderListComponent } from './master/admin/order/order.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +67,10 @@ import { FooterComponent } from './master/footer/footer.component';
     TermofserviceComponent,
     ShippingpolicyComponent,
     FooterComponent,
+    BannerListComponent,
+    BannerAddEditComponent,
+    SucessPageComponent,
+    OrderListComponent
     
   ],
   imports: [
@@ -71,7 +79,8 @@ import { FooterComponent } from './master/footer/footer.component';
     ReactiveFormsModule,
     HttpClientModule,
      QuillModule,
-    NgbModule
+    NgbModule,
+  FormsModule
   ],
   exports:[ErrorWidgetComponent,  AuthComponent],
   providers: [ {

@@ -10,6 +10,8 @@ import { ProductServiceService } from 'src/app/shared/product-service.service';
 })
 export class ProductComponent implements OnInit {
   public products:any = [];
+  public searchText: string = '';
+public filteredProducts: any[] = [];
 
   constructor(
     private productSer: ProductServiceService,
@@ -23,16 +25,16 @@ export class ProductComponent implements OnInit {
   private getProduct(){
     this.productSer.getProduct().subscribe((res)=>{
       this.products = res;
-      console.log("res",res)
+      this.filteredProducts = [...this.products];
     })
   }
 
   public navigate(){
-     this.router.navigate(['add-product']);
+     this.router.navigate(['/admin/add-product']);
   }
 
   public edit(id:any){
-     this.router.navigate([`add-product/${id}`]);
+     this.router.navigate([`admin/add-product/${id}`]);
   }
 
     deleteProduct(id:any) {
@@ -49,5 +51,11 @@ export class ProductComponent implements OnInit {
   });
 }
 
-  
+  filterProductList() {
+  const search = this.searchText.toLowerCase().trim();
+
+  this.filteredProducts = this.products.filter((product: any) =>
+    product.name.toLowerCase().includes(search)
+  );
+}
 }

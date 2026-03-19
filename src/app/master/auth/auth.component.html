@@ -12,7 +12,7 @@
 
     <p class="subtitle">
       {{ activeTab === 'login'
-        ? 'Login using password or OTP'
+        ? 'Login using  OTP'
         : 'Register with email verification OTP' }}
     </p>
 
@@ -43,34 +43,51 @@
       [formGroup]="loginForm"
       class="form"
      >
+     <div class="login-mode-radio">
 
-      <!-- Email -->
+  <label>
+    <input
+      type="radio"
+      name="loginMode"
+      value="otp"
+      [(ngModel)]="loginMode"
+      (change)="onLoginModeChange()" 
+      [ngModelOptions]="{ standalone: true }" />
+    OTP Login
+  </label>
+&nbsp;&nbsp;
+  <label>
+    <input
+      type="radio"
+      name="loginMode"
+      value="password"
+      [(ngModel)]="loginMode" 
+      (change)="onLoginModeChange()"
+      [ngModelOptions]="{ standalone: true }"/>
+    Password Login
+  </label>
+
+</div>
+       <ng-container *ngIf="loginMode === 'otp'">
+  <!-- Email -->
       <div class="input-group">
         <i class="fa fa-envelope"></i>
         <input
-          type="email"
-          placeholder="Email Address"
-          formControlName="email" />
+          type="text"
+          placeholder="Phone Number"
+          formControlName="phone"
+          maxlength="10" 
+           pattern="[0-9]*"
+          />
         <app-form-error
-          [control]="loginForm.get('email')"
-          errorLabel="Email Address">
+          [control]="loginForm.get('phone')"
+          errorLabel="Phone Number">
         </app-form-error>
       </div>
 
-      <!-- Password -->
-      <div class="input-group" *ngIf="!loginViaOTP">
-        <i class="fa fa-lock"></i>
-        <input
-          type="password"
-          placeholder="Password (optional for OTP login)"
-          formControlName="password" />
-        <app-form-error
-          [control]="loginForm.get('password')"
-          errorLabel="Password">
-        </app-form-error>
-      </div>
+ 
        <!-- OTP -->
-      <div class="input-group" *ngIf="loginViaOTP">
+      <div class="input-group" *ngIf="loginOtpSent">
         <i class="fa fa-key"></i>
         <input
           type="text"
@@ -82,21 +99,54 @@
         </app-form-error>
       </div>
       <!-- Send OTP -->
-    <div class="toggle-login">
-    <input
-      type="checkbox"
-      id="loginType"
-      [checked]="loginViaOTP"
-      (change)="changeLoginMethod($event)" />
-    <label for="loginType">
-      Login via OTP
-    </label>
-  </div>
+
 
       <!-- Submit -->
-      <button class="btn-primary" type="submit" (click)="submitLogin()">
+     <button class="btn-primary" type="button" (click)="handleOtpAction()">
+  {{ loginOtpSent ? 'Verify OTP' : 'Send OTP' }}
+</button>
+       </ng-container>
+
+     <ng-container *ngIf="loginMode === 'password'">
+
+    <!-- Email -->
+    <div class="input-group">
+      <i class="fa fa-envelope"></i>
+      <input type="email" placeholder="Email" formControlName="email" />
+        <app-form-error
+          [control]="loginForm.get('email')"
+          errorLabel="Password">
+        </app-form-error>
+    </div>
+
+    <!-- Password -->
+    <div class="input-group" *ngIf="!loginViaOTP">
+      <i class="fa fa-lock"></i>
+      <input type="password" placeholder="Password" formControlName="password" />
+        <app-form-error
+          [control]="loginForm.get('password')"
+          errorLabel="Password">
+        </app-form-error>
+    </div>
+     <div class="input-group" *ngIf="loginViaOTP">
+        <i class="fa fa-key"></i>
+        <input
+          type="text"
+          placeholder="Enter OTP"
+          formControlName="otp" />
+           <app-form-error
+          [control]="loginForm.get('otp')"
+          errorLabel="OTP">
+        </app-form-error>
+      </div>
+      <!-- Send OTP -->
+  
+
+    <button class="btn-primary" type="submit" (click)="submitLogin()">
        {{loginOtpSent ? "Verify OTP" : 'Login'}}
       </button>
+
+  </ng-container>
     </form>
 
     <!-- ================= REGISTER ================= -->
@@ -144,8 +194,6 @@
           errorLabel="Mobile Number">
         </app-form-error>
       </div>
-
-      <!-- Password -->
       <div class="input-group">
         <i class="fa fa-lock"></i>
         <input
@@ -157,7 +205,6 @@
           errorLabel="Password">
         </app-form-error>
       </div>
-
       <!-- Send Email OTP -->
   
 

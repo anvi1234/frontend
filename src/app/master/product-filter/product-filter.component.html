@@ -25,13 +25,22 @@
       </select>
     </div>
   </aside>
+  <section class="product-section">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search products..."
+        [(ngModel)]="searchText"
+        (input)="filterProducts()"
+      />
+    </div>
 
   <!-- PRODUCT GRID -->
   <main class="product-grid" id="productGrid">
 
     <div class="product-card"  *ngFor="let item of filteredProducts"  data-category="rudraksh" data-price="1500" >
-      <img [src]="item.mainImage.url" (click)="productNavigate(item._id)"/>
-      <h4>{{item.name}}</h4>
+      <img [src]="item.mainImage.url" (click)="productNavigate(item.slug)"/>
+      <h4 class="single-line">{{item.name}}</h4>
      <div class="price-box"> <!-- Final Price --> <span class="final-price"> {{ item.finalPrice | currency:'INR':'symbol':'1.0-0' }} </span> <!-- Original Price --> <span class="original-price" *ngIf="item.discount>0"> {{ item.price | currency:'INR':'symbol':'1.0-0' }} </span> <!-- Discount Badge --> <span class="discount" *ngIf="item.discount>0"> {{ item.discount }}% OFF </span> </div>
       <button class="btn primary" (click)="cartName === 'AddtoCart' ? addToCart(item) : goToCart()">{{cartName === 'AddtoCart'? 'Add To Cart' : 'Go To Cart'}}</button>
     </div>
@@ -39,6 +48,7 @@
  
 
   </main>
+  </section>
 
 </div>
 

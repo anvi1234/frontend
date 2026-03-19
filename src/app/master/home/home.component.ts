@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { BannerService } from 'src/app/shared/banner.service';
 import { CartService } from 'src/app/shared/cart.service';
 import { ProductServiceService } from 'src/app/shared/product-service.service';
 declare var $: any;
@@ -15,20 +16,34 @@ export class HomeComponent implements OnInit,AfterViewInit {
   public staticProductData:any = [];
   public gemsData:any=[];
   public rudrakshData:any =[]
+  banners: any[] = [];
+  public filteredProducts: any = [];
 
-images = ["./assets/images/newbanner1.jpeg", "./assets/images/newbanner2.jpeg", "./assets/images/newbanner3.jpeg"];
+
 
   constructor(
     private ProductSer: ProductServiceService,
     private router: Router,
-    private addToCartSer: CartService
+    private addToCartSer: CartService,
+    private bannerSer: BannerService
   ) { 
+    this.getBanner();
     this.getProduct();
   }
 
   ngOnInit(): void {
-
+     
   }
+
+getBanner() {
+  this.bannerSer.getBanners().subscribe((res: any) => {
+    if (res.success) {
+      this.banners = res.data.sort(
+        (a: any, b: any) => a.position - b.position
+      );
+    }
+  });
+}
 
   paused = false;
 	unpauseOnArrow = false;
@@ -50,11 +65,12 @@ images = ["./assets/images/newbanner1.jpeg", "./assets/images/newbanner2.jpeg", 
 
 	$(".cover-slides ul li").append("<div class='overlay-background'></div>");
 }
-
+selectedFilter: string = 'all';
 public getProduct(){
   this.ProductSer.getProduct().subscribe((res:any)=>{
     this.staticProductData = res;
-   this.productData = res.slice(0, 4);
+   this.productData = res;
+    this.filterType('all')
   })
 }
 
@@ -74,8 +90,8 @@ public getGemsData(){
   return GemsData.slice(0,7)
 }
 
-public productNavigate(id:string){
-  this.router.navigateByUrl(`/product-detail/${id}`);
+public productNavigate(slugName:string){
+  this.router.navigateByUrl(`/product-detail/${slugName}`);
 }
 
 
@@ -100,6 +116,18 @@ addToCart(itemDetails:any){
       }
   })
   
+}
+
+filterType(type: string) {
+  this.selectedFilter = type;
+  if (type === 'all') {
+    this.filteredProducts = this.productData;
+  } else if (type === 'top') {
+    this.filteredProducts = this.productData.filter((item: any) => item.isTopFeature);
+  } else if (type === 'best') {
+    this.filteredProducts = this.productData.filter((item: any) => item.isBestSeller);
+  }
+  this.filteredProducts = this.filteredProducts.slice(0, 4);
 }
 }
 

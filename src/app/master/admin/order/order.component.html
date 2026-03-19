@@ -1,0 +1,130 @@
+<div class="orders-page">
+  <div class="page-title">
+    <h2>Orders</h2>
+  </div>
+
+  <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search by order id, customer, city, product..."
+        [(ngModel)]="searchText"
+        (input)="applyFilter()"
+      />
+    </div>
+
+  <div class="table-responsive">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Address</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Payment</th>
+          <th>Order Status</th>
+          <th>Shipment</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let order of filteredOrders">
+          <td>
+            <div class="order-id">#{{ order._id}}</div>
+          </td>
+
+          <td>
+            <div class="customer-name">{{ order.address?.name }}</div>
+            <div class="customer-phone">{{ order.address?.phone }}</div>
+          </td>
+
+          <td>
+            <div class="address-block">
+              <div>{{ order.address?.street }}</div>
+              <div>
+                {{ order.address?.city }}, {{ order.address?.state }}
+              </div>
+              <div>PIN: {{ order.address?.pinCode }}</div>
+            </div>
+          </td>
+
+          <td>
+            <div class="items-list">
+              <div class="item-card" *ngFor="let item of order.items">
+                <img [src]="item.image" [alt]="item.name" class="item-image" />
+
+                <div class="item-details">
+                  <div class="item-name">{{ item.name }}</div>
+                  <div class="item-meta">
+                    Feature: {{ item.feature || '-' }}
+                  </div>
+                  <div class="item-meta">
+                    {{ item.variantType }}: {{ item.variantSize }}
+                  </div>
+                  <div class="item-meta">
+                    Qty: {{ item.quantity }}
+                  </div>
+                  <div class="item-price">
+                    ₹{{ item.updatedprice || item.price }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <strong>₹{{ order.totalAmount }}</strong>
+          </td>
+
+          <td>
+            <div class="payment-mode">{{ order.paymentMode }}</div>
+            <span
+              class="status-badge"
+              [ngClass]="{
+                'pending': order.paymentStatus === 'PENDING',
+                'success': order.paymentStatus === 'PAID',
+                'failed': order.paymentStatus === 'FAILED'
+              }"
+            >
+              {{ order.paymentStatus }}
+            </span>
+          </td>
+
+          <td>
+            <span
+              class="status-badge"
+              [ngClass]="{
+                'processing': order.orderStatus === 'PROCESSING',
+                'shipped': order.orderStatus === 'SHIPPED',
+                'delivered': order.orderStatus === 'DELIVERED',
+                'cancelled': order.orderStatus === 'CANCELLED'
+              }"
+            >
+              {{ order.orderStatus }}
+            </span>
+          </td>
+
+          <td>
+            <div *ngIf="order.shipment">
+              <div><strong>{{ order.shipment.courierName }}</strong></div>
+              <div>AWB: {{ order.shipment.awbCode }}</div>
+              <a
+                [href]="order.shipment.trackingUrl"
+                target="_blank"
+                class="track-link"
+              >
+                Track Order
+              </a>
+            </div>
+            <div *ngIf="!order.shipment">-</div>
+          </td>
+
+          <td>
+            {{ order.createdAt | date }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

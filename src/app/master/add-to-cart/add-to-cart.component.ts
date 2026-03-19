@@ -22,7 +22,7 @@ export class AddToCartComponent implements OnInit {
 
   public loadCartData(){
     this.cartSer.getCart().subscribe((res: any) => {
-
+this.cartSer.setCartCount(res.items.length);
   this.cartDetails = {
     ...res,
     items: res.items.map((item: any) => ({

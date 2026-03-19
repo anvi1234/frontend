@@ -32,6 +32,7 @@ removedImages: any[] = []; // for delete
   attributes = [
   { label: 'Size', value: 'Size' },
   { label: 'Weight', value: 'Weight' },
+  { label: 'Ratti', value: 'Ratti' },
   { label: 'Type', value: 'Type' }
 ];
   public categoriesData:any = []
@@ -65,6 +66,52 @@ removedGalleryImages: any[] = [];
         })
   }
 
+syncPriceFromVariant(featureIndex: number) {
+try {
+  
+  const variants = this.getVariants(featureIndex);
+
+  if (!variants || variants.value.length === 0) return;
+
+  const firstVariant = variants.at(0) as FormGroup;
+
+if(featureIndex === 0){
+  
+  const priceCtrl = firstVariant.get('price');
+  const discountCtrl = firstVariant.get('discountPercent');
+
+
+  priceCtrl?.valueChanges.subscribe(price => {
+    const discount = discountCtrl?.value || 0;
+
+    const finalPrice = price - (price * discount / 100);
+    this.productForm.patchValue({
+      price: price || '',
+      discount: discount || '',
+      finalPrice: finalPrice || ''
+    }, { emitEvent: false });
+  });
+
+  discountCtrl?.valueChanges.subscribe(discount => {
+    const price = priceCtrl?.value || 0;
+
+    const finalPrice = price - (price * discount / 100);
+
+    this.productForm.patchValue({
+      price: price || '',
+      discount: discount || '',
+      finalPrice: finalPrice || ''
+    }, { emitEvent: false });
+  });
+  this.productForm.get('price')?.disable({ emitEvent: false });
+  this.productForm.get('discount')?.disable({ emitEvent: false });
+  this.productForm.get('finalPrice')?.disable({ emitEvent: false });
+}
+} catch (error) {
+  console.log("error", error)
+}
+
+}
 public getProductById(id: string) {
   this.productSer.getProductById(id).subscribe((res: any) => {
     const product = res.product;
@@ -80,7 +127,9 @@ public getProductById(id: string) {
       category: product.category?._id,
       stock: product.stock,
       isActive: product.isActive,
-      ratings: product.ratings
+      ratings: product.ratings,
+      isTopFeature: product.isTopFeature,
+      isBestSeller: product.isBestSeller
     });
     this.mainImage = product.mainImage;
     /* ================= IMAGES (PREVIEW ONLY) ================= */
@@ -92,6 +141,7 @@ public getProductById(id: string) {
 
     /* ================= SECTIONS ================= */
     this.patchSections(product.sections || []);
+    this.calculateFinalPrice();
   });
 }
 
@@ -99,29 +149,25 @@ patchFeatures(features: any[]) {
   const featuresArray = this.features;
   featuresArray.clear();
 
-  features.forEach((feature: any) => {
+  features.forEach((feature: any, featureIndex: number) => {
     const featureGroup = this.fb.group({
       label: [feature.label, Validators.required],
       variants: this.fb.array([])
     });
 
+    const variantsArray = featureGroup.get('variants') as FormArray;
+
     feature.variants.forEach((variant: any) => {
-      (featureGroup.get('variants') as FormArray).push(
-        this.fb.group({
-          attribute: [variant.attribute, Validators.required],
-          value: [variant.value, Validators.required],
-          price: [variant.price, Validators.required],
-          discountPercent: [variant.discountPercent],
-          finalPrice: [{ value: variant.finalPrice, disabled: true }],
-          sku: [variant.sku],
-          inStock: [variant.inStock]
-        })
-      );
+      variantsArray.push(this.createVariant(variant));
     });
 
     featuresArray.push(featureGroup);
+
+    this.syncPriceFromVariant(featureIndex);
   });
 }
+
+
 patchSections(sections: any[]) {
   const sectionsArray = this.sections;
   sectionsArray.clear();
@@ -168,6 +214,7 @@ getVariants(featureIndex: number): FormArray {
 
   addFeature() {
     this.features.push(this.createFeature());
+     
   }
 
   public onFeatureChange(featureIndex: number) {
@@ -175,6 +222,7 @@ getVariants(featureIndex: number): FormArray {
   const variantsArray = this.getVariants(featureIndex);
   variantsArray.clear();
 variantsArray.push(this.createVariant());
+      this.syncPriceFromVariant(featureIndex);
 
 }
 
@@ -185,7 +233,8 @@ addVariant(featureIndex: number) {
 removeVariant(featureIndex: number, variantIndex: number) {
   if( variantIndex === 0){
     this.getVariants(featureIndex).removeAt(variantIndex);
-    this.removeFeature(featureIndex)
+    this.removeFeature(featureIndex);
+    
   }
   else{
   this.getVariants(featureIndex).removeAt(variantIndex);
@@ -243,31 +292,40 @@ getVariantGroup(i: number, j: number): FormGroup {
       sections: this.fb.array([]),
         stock: [1, [Validators.min(0)]],
         isActive: [true],
+        isTopFeature: [false],
+        isBestSeller: [false],
         ratings: [0]
     });
 
     this.calculateFinalPrice();
   }
 
-  createVariant(): FormGroup {
-    const group = this.fb.group({
-      attribute: ['', Validators.required],
-      value: ['', Validators.required],
-      price: [null, [Validators.required, Validators.min(0)]],
-      discountPercent: [0, [Validators.min(0), Validators.max(100)]],
-      finalPrice: [{ value: 0, disabled: true }],
-      sku: [''],
-      inStock: [true]
-    });
-    group.valueChanges.subscribe(v => {
-  const price = v.price || 0;
-  const discount = v.discountPercent || 0;
-  const final = price - (price * discount) / 100;
-  group.get('finalPrice')?.setValue(final, { emitEvent: false });
-});
+ createVariant(variant?: any): FormGroup {
+  const group = this.fb.group({
+    attribute: [variant?.attribute || '', Validators.required],
+    value: [variant?.value || '', Validators.required],
+    price: [variant?.price ?? null, [Validators.required, Validators.min(0)]],
+    discountPercent: [variant?.discountPercent ?? 0, [Validators.min(0), Validators.max(100)]],
+    finalPrice: [variant?.finalPrice ?? 0],
+    sku: [variant?.sku || ''],
+    inStock: [variant?.inStock ?? true]
+  });
 
-return group;
-  }
+  const updateFinalPrice = () => {
+    const price = Number(group.get('price')?.value) || 0;
+    const discount = Number(group.get('discountPercent')?.value) || 0;
+    const final = price - (price * discount) / 100;
+
+    group.get('finalPrice')?.setValue(final, { emitEvent: false });
+  };
+
+  updateFinalPrice();
+
+  group.get('price')?.valueChanges.subscribe(() => updateFinalPrice());
+  group.get('discountPercent')?.valueChanges.subscribe(() => updateFinalPrice());
+
+  return group;
+}
 
 calculateFinalPrice() {
   this.productForm.get('price')?.valueChanges.subscribe(() => {
@@ -332,6 +390,8 @@ submit(): void {
   formData.append('category', formValue.category);
   formData.append('stock', formValue?.stock?.toString()??1);
   formData.append('isActive', String(formValue.isActive));
+    formData.append('isTopFeature', String(formValue.isTopFeature));
+      formData.append('isBestSeller', String(formValue.isBestSeller));
   formData.append('ratings', formValue?.ratings?.toString() ?? 0);
   if(formValue.features.length > 0){
     formData.append('features', JSON.stringify(formValue?.features));

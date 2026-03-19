@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://backedashirvadgemsandstone.vercel.app/api',
+   apiBaseUrl: 'http://backedashirvadgemsandstone.vercel.app/api',
 };
 
 /*

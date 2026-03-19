@@ -25,5 +25,7 @@ API =  `${environment.apiBaseUrl}/orders`;
   getOrder(){
     return this.http.get(`${this.API}/my-orders`);
   }
- 
+  getAllOrder(){
+     return this.http.get(`${this.API}/orders`);
+  }
 }

@@ -1,261 +1,98 @@
+/* ===============================
+   WRAPPER
+=================================*/
+
 .product-list-wrapper {
   padding: 30px;
-  background: #f5f7fb;
-}
-
-.list-header {
+  background: #fdf8f3;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  flex-direction: column;
+  height: 100%;
 }
 
-.list-header h2 {
-  margin: 0;
-  color: #333;
-}
+/* ===============================
+   PAGE HEADER
+=================================*/
 
-.add-btn {
-  padding: 10px 18px;
-  background: linear-gradient(135deg, #6c63ff, #5146ff);
+.page-header {
+  background: linear-gradient(135deg, #ff6f00, #e65100);
+  padding: 18px 25px;
+  border-radius: 14px;
   color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(255, 111, 0, 0.3);
 }
 
-.add-btn:hover {
-  opacity: 0.9;
+/* ===============================
+   TABLE CONTAINER
+=================================*/
+
+.table-container {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
+
+/* 🔥 SCROLL AREA */
+.table-scroll {
+  flex: 1;
+  overflow: auto;   /* both vertical + horizontal */
+}
+
+/* Custom Scrollbar */
+
+.table-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #ff6f00;
+  border-radius: 10px;
+}
+
+/* ===============================
+   TABLE
+=================================*/
 
 .product-table {
   width: 100%;
+  min-width: 1100px;  /* forces horizontal scroll */
   border-collapse: collapse;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
+/* 🔥 STICKY HEADER */
+.product-table thead th {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #ff6f00, #e65100);
+  color: white;
+  z-index: 5;
+}
+
+/* Cells */
+.breakword{
+  white-space: normal;      /* allow wrapping */
+  word-break: break-word;   /* break long words */
+  overflow-wrap: break-word;
+}
 .product-table th,
 .product-table td {
   padding: 14px;
   text-align: left;
   font-size: 14px;
-}
-
-.product-table thead {
-  background: #6c63ff;
-  color: white;
+ 
 }
 
 .product-table tbody tr {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f1f1f1;
+  transition: 0.2s;
 }
 
 .product-table tbody tr:hover {
-  background: #f9f9ff;
-}
-
-.product-img {
-  width: 55px;
-  height: 55px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-}
-
-.desc {
-  font-size: 12px;
-  color: #777;
-  margin: 4px 0 0;
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Status */
-.status {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.status.active {
-  background: #e6f7ed;
-  color: #2e7d32;
-}
-
-.status.inactive {
-  background: #fdecea;
-  color: #c62828;
-}
-
-/* Actions */
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
-.actions button {
-  padding: 6px 12px;
-  font-size: 12px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-.actions .edit {
-  background: #e3f2fd;
-  color: #1565c0;
-}
-
-.actions .delete {
-  background: #fdecea;
-  color: #c62828;
-}
-
-.actions button:hover {
-  opacity: 0.85;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .product-table {
-    display: block;
-    overflow-x: auto;
-  }
-}
-.product-form-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 40px;
-  background: #f5f7fb;
-}
-
-.product-form {
-  background: #ffffff;
-  padding: 30px;
-  width: 100%;
-  max-width: 750px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-.product-form h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #333;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 18px;
-}
-
-.form-group label {
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #555;
-}
-
-.form-group span {
-  font-size: 12px;
-  color: #888;
-}
-
-.form-group input,
-.form-group textarea {
-  padding: 12px 14px;
-  border-radius: 8px;
-  border: 1px solid #dcdcdc;
-  font-size: 14px;
-  transition: all 0.3s;
-}
-
-.form-group textarea {
-  resize: none;
-  min-height: 90px;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  border-color: #6c63ff;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.15);
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-}
-
-/* Button */
-button {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #6c63ff, #5146ff);
-  color: white;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(108, 99, 255, 0.3);
-}
-
-/* Switch */
-.switch-group {
-  align-items: flex-start;
-}
-
-.switch {
-  position: relative;
-  width: 48px;
-  height: 24px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  background-color: #ccc;
-  border-radius: 24px;
-  inset: 0;
-  transition: 0.4s;
-}
-
-.slider::before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.4s;
-}
-
-.switch input:checked + .slider {
-  background-color: #6c63ff;
-}
-
-.switch input:checked + .slider::before {
-  transform: translateX(24px);
+  background: #fff3e0;
 }

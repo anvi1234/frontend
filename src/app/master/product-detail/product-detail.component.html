@@ -2,12 +2,33 @@
 
   <!-- LEFT: IMAGE GALLERY -->
   <div class="product-gallery">
-    <img [src]="selectedImage" class="main-image" />
+   <div class="main-display" *ngIf="selectedFile">
+  <!-- IMAGE -->
+  <img *ngIf="selectedFile.type !== 'video'" [src]="selectedFile.url" class="main-image" />
 
-    <div class="thumbs" *ngIf="images.length >1">
-      <img *ngFor="let img of images" [src]="img.url" (click)="selectImage(img.url)"
-        [class.active]="img === selectedImage" />
+  <!-- VIDEO -->
+  <video *ngIf="selectedFile.type === 'video'" [src]="selectedFile.url" controls class="main-image"></video>
+</div>
+
+    
+    <div class="thumbs" *ngIf="images.length > 0">
+  <ng-container *ngFor="let file of images">
+
+    <!-- IMAGE THUMB -->
+    <img *ngIf="file.type !== 'video'"
+         [src]="file.url"
+          (click)="selectImage(file)"
+         [class.active]="file === selectedImage" />
+
+    <!-- VIDEO THUMB -->
+    <div *ngIf="file.type === 'video'" class="video-thumb" (click)="selectImage(file)">
+      <video [src]="file.url" muted></video>
+      <span class="play-icon">&#9658;</span> <!-- small play icon overlay -->
+      <div [class.active]="file === selectedImage" class="overlay"></div>
     </div>
+
+  </ng-container>
+</div>
   </div>
 
 
@@ -15,7 +36,6 @@
   <!-- RIGHT: PRODUCT INFO -->
   <div class="product-info">
 
-    <span class="badge">Blessed Product ✨</span>
 
     <h1>{{productDetail?.name}}</h1>
     <p class="subtitle" *ngIf="productDetail?.subtitle">{{productDetail?.subtitle}}</p>
@@ -28,8 +48,17 @@
     </div>
 
     <!-- RATINGS -->
-    <div class="rating">
-      ⭐⭐⭐⭐☆ <span>(124 Reviews)</span>
+    <div class="rating" *ngIf="productDetail && productDetail.ratingCount > 0">
+      <div class="stars">
+     <span
+    *ngFor="let star of [1,2,3,4,5]"
+    [class.active]="productDetail.ratingAverage >= star"
+    [class.disabled]="true">
+
+    ★
+
+  </span> ({{productDetail.ratingCount}}) Reviews
+    </div>
     </div>
 
 
@@ -73,7 +102,7 @@
     <!-- ACTIONS -->
     <div class="actions">
       <button class="btn primary" (click)="cartName === 'AddtoCart' ? addToCart() : goToCart()">{{cartName === 'AddtoCart'? 'Add To Cart' : 'Go To Cart'}}</button>
-      <button class="btn outline">Buy Now</button>
+      <button class="btn outline" (click)="buyNow()">Buy Now</button>
     </div>
 
     <!-- DELIVERY -->
@@ -83,6 +112,60 @@
 
   </div>
 </div>
+<div class="review-card">
+
+  <!-- Tab Header -->
+  <div class="tab-header" (click)="toggleTab()">
+    <h4>Product Rating & Reviews</h4>
+     <span class="icon">
+      <i class="fa"
+         [ngClass]="isTabOpen ? 'fa-chevron-up' : 'fa-chevron-down'">
+      </i>
+    </span>
+  </div>
+
+  <!-- Tab Content -->
+  <div *ngIf="isTabOpen">
+   <div *ngIf="productDetail?.reviews?.length">
+  <div class="review-card" *ngFor="let review of productDetail.reviews">
+
+    <!-- USER -->
+    <div class="review-header">
+      <span class="user-name">{{ review.userName }}</span>
+
+      <div class="stars">
+        <span
+          *ngFor="let star of [1,2,3,4,5]"
+          [class.active]="review.rating >= star">
+          ★
+        </span>
+      </div>
+    </div>
+
+    <!-- COMMENT -->
+    <p class="review-text">{{ review.comment }}</p>
+
+    <!-- REVIEW IMAGES -->
+    <div class="review-images" *ngIf="review.reviewimages?.length">
+
+      <img
+        *ngFor="let img of review.reviewimages"
+        [src]="img.url"
+        class="review-img">
+
+    </div>
+
+    <small class="review-date">
+      {{ review.createdAt | date:'mediumDate' }}
+    </small>
+
+  </div>
+
+</div>
+  </div>
+
+</div>
+
 
 
 
@@ -109,7 +192,38 @@
       <li> <span class="icon">✅</span> <span>100% Original Guarantee</span> </li>
       <li> <span class="icon">🔄</span> <span>7 Days Return Policy (Orders under ₹12,000)</span> </li>
       <li> <span class="icon">📦</span> <span>Delivery within 5–6 Working Days</span> </li>
-      <li> <span class="icon">📞</span> <span> Need Help? WhatsApp us at <strong>+91 9760558655</strong> </span> </li>
+      <li> <span class="icon">📞</span> <span> Need Help? WhatsApp us at <strong>+91 9899545248</strong> </span> </li>
     </ul>
+  </div>
+</div>
+<div class="related-products" *ngIf="relatedProducts?.length">
+  <h3>Related Products</h3>
+
+  <div class="related-scroll">
+    <div class="related-card" *ngFor="let item of relatedProducts">
+      <div class="related-img">
+        <img [src]="item.mainImage.url" (click)="productNavigate(item.slug)" [alt]="item.name" />
+      </div>
+
+      <div class="related-info">
+        <h4 (click)="productNavigate(item.slug)">{{ item.name }}</h4>
+
+        <div class="price-box">
+          <span class="final-price">
+            {{ item.finalPrice | currency:'INR':'symbol':'1.0-0' }}
+          </span>
+
+          <span class="original-price" *ngIf="item.discount > 0">
+            {{ item.price | currency:'INR':'symbol':'1.0-0' }}
+          </span>
+
+          <span class="discount" *ngIf="item.discount > 0">
+            {{ item.discount }}% off
+          </span>
+        </div>
+
+        <button class="cart-btn" (click)="addToCart(item)">Add to Cart</button>
+      </div>
+    </div>
   </div>
 </div>

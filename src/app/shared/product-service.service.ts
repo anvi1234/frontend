@@ -39,4 +39,7 @@ public getProduct(){
     public getProductByMultipleSlug(slugName: string) {
     return this.http.get<any>(`${this.Environmnet}/products/multiplecategory/${slugName}`);
   }
+  getProudctBySlugName(slugName: string){
+ return this.http.get<any>(`${this.Environmnet}/products/getProductBySlug/${slugName}`);
+  }
 }

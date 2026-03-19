@@ -70,7 +70,7 @@
     <div class="form-group">
       
       <label>Gallery Images <span>(Max 6)</span> </label>
-      <input type="file" multiple accept="image/*" (change)="onImagesSelect($event)" />
+      <input type="file" multiple accept="image/*,video/*" (change)="onImagesSelect($event)" />
       <div class="gallery-preview">
   <div *ngFor="let img of existingGalleryImages; let i = index">
     <img [src]="img.url" height="100" />
@@ -97,7 +97,23 @@
           <span class="slider"></span>
         </label>
       </div>
+
+       <div class="form-group switch-group">
+        <label>Top Featured</label>
+        <label class="switch">
+          <input type="checkbox" formControlName="isTopFeature" />
+          <span class="slider"></span>
+        </label>
+      </div>
+       <div class="form-group switch-group">
+        <label>Best Seller</label>
+        <label class="switch">
+          <input type="checkbox" formControlName="isBestSeller" />
+          <span class="slider"></span>
+        </label>
+      </div>
     </div>
+  
 <!-- ================= FEATURES ================= -->
 <div class="form-group" formArrayName="features">
   <h3>Plans / Features</h3>
@@ -175,18 +191,34 @@
           </div>
 
           <!-- VALUE -->
-          <div class="form-group">
-            <label>Value <span class="required">*</span></label>
-            <input
-              type="text"
-              formControlName="value"
-              placeholder="Large / 500g"
-            />
-            <app-form-error
-  [control]="getVariantGroup(i, j).get('value')"
-  errorLabel="Value"
-></app-form-error>
-          </div>
+        <!-- VALUE -->
+<div class="form-group">
+  <label>Value <span class="required">*</span></label>
+
+  <!-- Dropdown when attribute = Type -->
+  <select
+    *ngIf="getVariantGroup(i, j).get('attribute')?.value === 'Type'"
+    formControlName="value"
+    class="form-control"
+  >
+    <option value="">Select Type</option>
+    <option value="With Pendant">With Pendant</option>
+    <option value="Without Pendant">Without Pendant</option>
+  </select>
+
+  <!-- Textbox for other attributes -->
+  <input
+    *ngIf="getVariantGroup(i, j).get('attribute')?.value !== 'Type'"
+    type="text"
+    formControlName="value"
+    placeholder="Large / 500g"
+  />
+
+  <app-form-error
+    [control]="getVariantGroup(i, j).get('value')"
+    errorLabel="Value"
+  ></app-form-error>
+</div>
 
           <!-- PRICE -->
           <div class="form-group">
@@ -194,10 +226,12 @@
             <input
               type="number"
               formControlName="price"
+              (input)="updateFinalPrice()"
             />
             <app-form-error
   [control]="getVariantGroup(i, j).get('price')"
   errorLabel="Price"
+
 ></app-form-error>
           </div>
 
@@ -207,6 +241,7 @@
             <input
               type="number"
               formControlName="discountPercent"
+
             />
             <app-form-error
   [control]="getVariantGroup(i, j).get('discountPercent')"
@@ -331,7 +366,7 @@
 
 
 
-    <button type="button" (click)="submit()" class="submit">Save Product</button>
+    <button type="submit" (click)="submit()" class="submit">Save Product</button>
 
   </form>
 </div>

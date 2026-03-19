@@ -20,32 +20,93 @@ import { ShippingpolicyComponent } from './master/shippingpolicy/shippingpolicy.
 import { PrivacyandpolicyComponent } from './master/privacyandpolicy/privacyandpolicy.component';
 import { ReturnPolicyComponent } from './master/return-policy/return-policy.component';
 import { TermofserviceComponent } from './master/termofservice/termofservice.component';
+import { AdminGuard } from 'guard/admin.guard';
+import { BannerAddEditComponent } from './master/admin/banner/banner-add-edit/banner-add-edit.component';
+import { BannerListComponent } from './master/admin/banner/banner-list/banner-list.component';
+import { SucessPageComponent } from './master/sucess-page/sucess-page.component';
+import { OrderListComponent } from './master/admin/order/order.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'admin', component: AdminComponent },
-  { path: 'product', component: ProductComponent },
-  { path: 'add-product', component: ProoductAddEditComponent },
-  { path: 'add-product/:id', component: ProoductAddEditComponent },
-  { path: 'category', component: CategoryListComponent },
-  { path: 'add-category', component: CategoryComponent },
-  { path: 'add-category/:id', component: CategoryComponent },
   { path: 'add-to-cart', component: AddToCartComponent },
-  { path: 'product-detail/:id', component: ProductDetailComponent },
+  { path: 'product-detail/:slugName', component: ProductDetailComponent },
   { path: 'product-list', component: ProductFilterComponent },
   { path: 'product/:slug', component: ProductFilterComponent },
   { path: 'about-us', component: AboutComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'astro-consultation', component: AstroConsultationComponent },
-   { path: 'astro-education', component: AstroEducationComponent },
-    { path: 'astro-consultation-list', component: AstroListConsultationComponent },
-  { path: 'astro-education-list', component: AstroEduListComponent },
-   { path: 'order-list', component: OrderComponent },
-     { path: 'shipping-policy', component: ShippingpolicyComponent },
-      { path: 'privacy-policy', component: PrivacyandpolicyComponent },
-       { path: 'refund-policy', component: ReturnPolicyComponent },
-        { path: 'termofService', component: TermofserviceComponent },
+  { path: 'astro-education', component: AstroEducationComponent },
+  { path: 'order-list', component: OrderComponent },
+  { path: 'shipping-policy', component: ShippingpolicyComponent },
+  { path: 'privacy-policy', component: PrivacyandpolicyComponent },
+  { path: 'refund-policy', component: ReturnPolicyComponent },
+  { path: 'termofService', component: TermofserviceComponent },
+   {path:'payment-success',
+  component: SucessPageComponent},
+  {
+    path: 'admin',
+    component: AdminComponent,
+    children: [
+      {
+        path: 'products',
+        component: ProductComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'categories',
+        component: CategoryListComponent,
+        canActivate: [AdminGuard],
+      },
+       {
+        path: 'order-list',
+        component: OrderListComponent,
+        canActivate: [AdminGuard],
+      },
+      
+      {
+        path: 'add-product',
+        component: ProoductAddEditComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'add-product/:id',
+        component: ProoductAddEditComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'add-category',
+        component: CategoryComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'add-category/:id',
+        component: CategoryComponent,
+        canActivate: [AdminGuard],
+      },
+        {
+        path: 'add-banner',
+        component: BannerAddEditComponent,
+        canActivate: [AdminGuard],
+      },
+        {
+        path: 'banner-list',
+        component: BannerListComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'astro-consultation-list',
+        component: AstroListConsultationComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'astro-education-list',
+        component: AstroEduListComponent,
+        canActivate: [AdminGuard],
+      },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
+  },
 ];
 
 @NgModule({

@@ -80,7 +80,8 @@ export interface Product {
 
   extraBadges: any[];
   reviews: any[];
-
+  seo:any;
+  openGraph:any;
   createdAt: string;
   updatedAt: string;
 }

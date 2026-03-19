@@ -5,7 +5,7 @@
 
     <!-- Top -->
     <div class="order-top">
-      <span class="order-id">Order • {{ order?.shipment?.awbCode }} </span>
+      <span class="order-id">Order • {{ getOrderId(order._id) }} </span>
       <span class="status" [ngClass]="order.orderStatus.toLowerCase()">
         {{ order.orderStatus }}
       </span>
@@ -25,8 +25,30 @@
           <span class="price">{{ order.totalAmount | currency:'INR':'symbol':'1.0-0'}}</span>
           <span class="qty">Qty: {{ order.items[0].quantity }}</span>
         </div>
-      </div>
+        <div class="review-trigger" >
+
+    <div class="stars">
+     <span
+    *ngFor="let star of [1,2,3,4,5]"
+    (click)="!item.reviewDisabled && (item.selectedRating = star)"
+    [class.active]="item.selectedRating >= star"
+    [class.disabled]="item.reviewDisabled">
+
+    ★
+
+  </span>
     </div>
+
+<span class="write-review"
+      *ngIf="!item.hasReviewed && item.selectedRating > 0"
+      (click)="openReviewPopup(order,item)">
+      Write Review
+</span>
+
+    </div>
+      </div>
+
+</div>
 
     <!-- Buttons -->
     <div class="order-footer">
@@ -63,7 +85,7 @@
 
       <div class="detail-row total">
         <span>Total Amount</span>
-        <strong>₹{{ order.totalAmount | currency:'INR':'symbol':'1.0-0'}}</strong>
+        <strong>{{ order.totalAmount | currency:'INR':'symbol':'1.0-0'}}</strong>
       </div>
     </div>
 
@@ -140,4 +162,36 @@
 
 </div>
   </div>
+</div>
+
+
+<!-- REVIEW POPUP -->
+<div class="review-modal" *ngIf="showReviewPopup">
+ <span class="close-btn" (click)="closeReview()">✕</span>
+  <div class="modal-content">
+
+    <h3>Write a Review</h3>
+
+    <!-- Stars -->
+ 
+ <!-- [(ngModel)]="reviewComment" -->
+    <!-- Comment -->
+    <textarea
+      placeholder="Write your review..."
+      [(ngModel)]="reviewComment"
+     >
+    </textarea>
+
+    <!-- Upload -->
+    <input type="file" multiple accept="image/*"
+           (change)="onReviewImageUpload($event)" />
+
+    <!-- Buttons -->
+    <div class="actions">
+      <button (click)="closeReview()">Cancel</button>
+      <button (click)="submitReview()">Submit</button>
+    </div>
+
+  </div>
+
 </div>

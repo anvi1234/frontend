@@ -1,0 +1,123 @@
+/* ===============================
+   WRAPPER
+=================================*/
+
+.product-list-wrapper {
+  padding: 30px;
+  background: #fdf8f3;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ===============================
+   PAGE HEADER
+=================================*/
+
+.page-header {
+  background: linear-gradient(135deg, #ff6f00, #e65100);
+  padding: 18px 25px;
+  border-radius: 14px;
+  color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(255, 111, 0, 0.3);
+}
+
+/* ===============================
+   TABLE CONTAINER
+=================================*/
+
+.table-container {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔥 SCROLL AREA */
+.table-scroll {
+  flex: 1;
+  overflow: auto;   /* both vertical + horizontal */
+}
+
+/* Custom Scrollbar */
+
+.table-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #ff6f00;
+  border-radius: 10px;
+}
+
+/* ===============================
+   TABLE
+=================================*/
+
+.product-table {
+  width: 100%;
+  min-width: 1100px;  /* forces horizontal scroll */
+  border-collapse: collapse;
+}
+
+/* 🔥 STICKY HEADER */
+.product-table thead th {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #ff6f00, #e65100);
+  color: white;
+  z-index: 5;
+}
+
+/* Cells */
+.breakword{
+  white-space: normal;      /* allow wrapping */
+  word-break: break-word;   /* break long words */
+  overflow-wrap: break-word;
+}
+.product-table th,
+.product-table td {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+ 
+}
+
+.product-table tbody tr {
+  border-bottom: 1px solid #f1f1f1;
+  transition: 0.2s;
+}
+
+.product-table tbody tr:hover {
+  background: #fff3e0;
+}
+.add-btn {
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #ff6f00, #e65100);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 111, 0, 0.3);
+}
+.product-img {
+  width: 100%;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+.actions{
+  cursor: pointer;
+}

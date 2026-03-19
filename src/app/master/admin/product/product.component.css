@@ -1,41 +1,117 @@
+/* ===============================
+   GLOBAL WRAPPER
+=================================*/
+
 .product-list-wrapper {
   padding: 30px;
-  background: #f5f7fb;
+  background: #fdf8f3;
+  min-height: calc(100vh - 140px); /* prevents footer overlap */
+  display: flex;
+  flex-direction: column;
 }
+
+/* ===============================
+   PAGE HEADER
+=================================*/
+
+.page-header {
+  background: linear-gradient(135deg, #ff6f00, #e65100);
+  padding: 18px 25px;
+  border-radius: 14px;
+  color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(255, 111, 0, 0.3);
+}
+
+.page-header h2 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ===============================
+   LIST HEADER (TITLE + BUTTON)
+=================================*/
 
 .list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .list-header h2 {
   margin: 0;
-  color: #333;
+  color: #e65100;
 }
+
+/* Add Button */
 
 .add-btn {
   padding: 10px 18px;
-  background: linear-gradient(135deg, #6c63ff, #5146ff);
+  background: linear-gradient(135deg, #ff6f00, #e65100);
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  transition: 0.3s;
 }
 
 .add-btn:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 111, 0, 0.3);
 }
+
+/* ===============================
+   TABLE CONTAINER (SCROLL FIX)
+=================================*/
+
+.table-container {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollable body */
+
+.table-scroll {
+  overflow-y: auto;
+  max-height: 60vh; /* IMPORTANT: table will scroll */
+}
+
+/* Custom Scrollbar */
+
+.table-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #ff6f00;
+  border-radius: 10px;
+}
+
+/* ===============================
+   TABLE
+=================================*/
 
 .product-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Sticky header */
+
+.product-table thead {
+  background: linear-gradient(135deg, #ff6f00, #e65100);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .product-table th,
@@ -45,38 +121,45 @@
   font-size: 14px;
 }
 
-.product-table thead {
-  background: #6c63ff;
+.product-table th {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.product-table thead th {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #ff6f00, #e65100);
   color: white;
+  z-index: 5;
 }
 
+/* Row styling */
+
 .product-table tbody tr {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f1f1f1;
+  transition: 0.2s;
 }
 
 .product-table tbody tr:hover {
-  background: #f9f9ff;
+  background: #fff3e0;
 }
+
+/* ===============================
+   IMAGE
+=================================*/
 
 .product-img {
   width: 55px;
   height: 55px;
   object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  border-radius: 10px;
+  border: 1px solid #eee;
 }
 
-.desc {
-  font-size: 12px;
-  color: #777;
-  margin: 4px 0 0;
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+/* ===============================
+   STATUS BADGES
+=================================*/
 
-/* Status */
 .status {
   padding: 6px 12px;
   border-radius: 20px;
@@ -85,7 +168,7 @@
 }
 
 .status.active {
-  background: #e6f7ed;
+  background: #e8f5e9;
   color: #2e7d32;
 }
 
@@ -94,7 +177,10 @@
   color: #c62828;
 }
 
-/* Actions */
+/* ===============================
+   ACTION BUTTONS
+=================================*/
+
 .actions {
   display: flex;
   gap: 8px;
@@ -106,11 +192,12 @@
   border-radius: 6px;
   border: none;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .actions .edit {
-  background: #e3f2fd;
-  color: #1565c0;
+  background: #fff3e0;
+  color: #e65100;
 }
 
 .actions .delete {
@@ -119,143 +206,20 @@
 }
 
 .actions button:hover {
-  opacity: 0.85;
+  transform: translateY(-1px);
 }
 
-/* Responsive */
+
+/* ===============================
+   RESPONSIVE
+=================================*/
+
 @media (max-width: 900px) {
   .product-table {
-    display: block;
+    min-width: 800px;
+  }
+
+  .table-scroll {
     overflow-x: auto;
   }
-}
-.product-form-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 40px;
-  background: #f5f7fb;
-}
-
-.product-form {
-  background: #ffffff;
-  padding: 30px;
-  width: 100%;
-  max-width: 750px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-.product-form h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #333;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 18px;
-}
-
-.form-group label {
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #555;
-}
-
-.form-group span {
-  font-size: 12px;
-  color: #888;
-}
-
-.form-group input,
-.form-group textarea {
-  padding: 12px 14px;
-  border-radius: 8px;
-  border: 1px solid #dcdcdc;
-  font-size: 14px;
-  transition: all 0.3s;
-}
-
-.form-group textarea {
-  resize: none;
-  min-height: 90px;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  border-color: #6c63ff;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.15);
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-}
-
-/* Button */
-button {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #6c63ff, #5146ff);
-  color: white;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(108, 99, 255, 0.3);
-}
-
-/* Switch */
-.switch-group {
-  align-items: flex-start;
-}
-
-.switch {
-  position: relative;
-  width: 48px;
-  height: 24px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  background-color: #ccc;
-  border-radius: 24px;
-  inset: 0;
-  transition: 0.4s;
-}
-
-.slider::before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.4s;
-}
-
-.switch input:checked + .slider {
-  background-color: #6c63ff;
-}
-
-.switch input:checked + .slider::before {
-  transform: translateX(24px);
 }

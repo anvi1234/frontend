@@ -15,8 +15,9 @@ export class AuthComponent implements OnInit {
    @Output() close = new EventEmitter<void>();
 
   showAuthPopup = true;
-  activeTab: 'login' | 'register' = 'register';
+  activeTab: 'login' | 'register' = 'login';
   loginOtpSent = false;
+  loginMode = "otp"
   public registerOtpSent = false;
  loginForm!: FormGroup;
   registerForm!: FormGroup;
@@ -31,43 +32,81 @@ export class AuthComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private cartSer: CartService
-  ) {}
+  ) {
+    
+  }
 
   ngOnInit(): void {
-     this.authService.popupState$.subscribe((res)=>{
-         this.showAuthPopup = res
+   try {
+      this.authService.popupState$.subscribe((res)=>{
+         this.showAuthPopup = res;
+         this.successmessage = "";
+    this.message = ""
+    this.loginForm.reset();
+    this.registerForm.reset();
+    this.activeTab = "login"
      })
      this.loginForm = this.fb.group({
-      email:['', [Validators.required, Validators.email]],
-      password:  [''],
-       otp: ['']
+      phone:[''],
+       otp: [''],
+       password:[''],
+         email: ['']
     });
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
-      password: ['', Validators.required,Validators.minLength(4)],
       email: ['', [Validators.required, Validators.email]],
+      password:['',[Validators.required, Validators.maxLength(5)]],
       phone: ['', [
         Validators.required,
         Validators.pattern(/^[6-9]\d{9}$/)
       ]],
       otp: ['']
     });
+   } catch (error) {
+      console.log("error",error)
+   }
 
     this.updateValidators();
   }
 
-  updateValidators() {
-    if (this.loginViaOTP) {
-      this.loginForm.get('password')?.clearValidators();
-      this.loginForm.get('otp')?.setValidators([Validators.required, Validators.minLength(4)]);
-    } else {
-      this.loginForm.get('otp')?.clearValidators();
-      this.loginForm.get('password')?.setValidators([Validators.required, Validators.minLength(4)]);
-    }
+  onLoginModeChange() {
+  this.loginForm.reset(); // optional
+  this.loginOtpSent = false;
+  this.updateValidators();
+}
+updateValidators() {
+  const phoneControl = this.loginForm.get('phone');
+  const otpControl = this.loginForm.get('otp');
+  const emailControl = this.loginForm.get('email');
+  const passwordControl = this.loginForm.get('password');
 
-    this.loginForm.get('password')?.updateValueAndValidity();
-    this.loginForm.get('otp')?.updateValueAndValidity();
+  if (this.loginMode === 'otp') {
+    // ✅ OTP mode
+    phoneControl?.setValidators([
+      Validators.required,
+      Validators.pattern(/^[0-9]{10}$/)
+    ]);
+   
+
+    emailControl?.clearValidators();
+    passwordControl?.clearValidators();
+
+  } else {
+    // ✅ Password mode
+    emailControl?.setValidators([Validators.required, Validators.email]);
+    passwordControl?.setValidators([Validators.required]);
+
+    phoneControl?.clearValidators();
+    otpControl?.clearValidators();
   }
+
+  // 🔥 IMPORTANT: update validity
+  phoneControl?.updateValueAndValidity();
+  otpControl?.updateValueAndValidity();
+  emailControl?.updateValueAndValidity();
+  passwordControl?.updateValueAndValidity();
+}
+
 
   get f() {
     return this.registerForm.controls;
@@ -224,5 +263,50 @@ showSuccess(msg: string) {
   this.successmessage = msg;
   this.message = ''; // override error
 }
+sendOTP() {
+  const payload = {
+    phone: this.loginForm.get("phone")?.value
+  };
 
+  this.authService.sendLoginOtpMobile(payload).subscribe({
+    next: (res: any) => {
+    this.loginOtpSent = true;
+     this.loginForm.get("otp")?.setValidators([Validators.required]);
+    this.successmessage = 'OTP sent successfully';
+    },
+    error: (err) => {
+      console.error(err);
+      alert(err.error?.message || 'Failed to send OTP');
+    }
+  });
+}
+verifyOTP() {
+  const payload = {
+    phone: this.loginForm.get('phone')?.value,
+    otp: this.loginForm.get('otp')?.value
+  };
+
+  this.authService.verifyLoginOtpMobile(payload).subscribe({
+    next: (res: any) => {
+     this.authService.setSession(res);
+      this.getCartDetails()
+      this.closePopup();
+    },
+    error: (err) => {
+      console.error(err);
+      alert(err.error?.message || 'Invalid OTP');
+    }
+  });
+}
+handleOtpAction() {
+  this.loginForm.markAllAsTouched();
+  if(this.loginForm.valid){
+ if (this.loginOtpSent) {
+    this.verifyOTP();
+  } else {
+    this.sendOTP();
+  }
+  }
+ 
+}
 }

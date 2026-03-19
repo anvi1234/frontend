@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { CartService } from 'src/app/shared/cart.service';
 import { Cart, CartItem } from '../add-to-cart/cart.model';
 import { CheckoutService } from 'src/app/shared/checkout.service';
+import { Router } from '@angular/router';
 
 declare var Razorpay: any;
 @Component({
@@ -61,12 +62,28 @@ export class CheckoutComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private cartSer: CartService,
-    private checkoutSer: CheckoutService
+    private checkoutSer: CheckoutService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
-    this.loadCart();
+
+   const navigation = history.state;
+
+  if (navigation.buyNowProduct) {
+
+    this.cartItems = {
+      items: [navigation.buyNowProduct]
+    } as any;
+
+    this.calculateTotal();
+
+  } else {
+
+    this.loadCart(); // normal cart flow
+
+  }
 
   }
 
@@ -138,7 +155,7 @@ export class CheckoutComponent implements OnInit {
 pay() {
   this.checkoutSer.createOrder(1).subscribe((order: any) => {
     const options = {
-      key: 'rzp_test_SA3noTL3cD9o2z',
+      key: 'rzp_live_SPsOWUwOGq0yBs',
       amount: order.amount,
       currency: 'INR',
       name: 'Aashirvad Rudraksh & Gems',
@@ -173,7 +190,8 @@ pay() {
             city: this.checkoutForm.value.city,
             pinCode: this.checkoutForm.value.pinCode,
             state: this.checkoutForm.value.state || 'UP',
-            country: this.checkoutForm.value.country || 'India'
+            country: this.checkoutForm.value.country || 'India',
+            phone: this.checkoutForm.value.phone
           }
         };
 
@@ -182,6 +200,12 @@ pay() {
             this.checkoutForm.reset();
             this.cartItems.items = [];
             this.totalAmount = 0;
+            this.router.navigate(['/payment-success'],{
+  queryParams:{
+    orderId: this.getOrderId(res._id),
+    amount: response.order.totalAmount
+  }
+});
             alert('Payment Successful ✅');
           } else {
             alert('Payment Verification Failed ❌');
@@ -196,6 +220,11 @@ pay() {
     rzp.open();
   });
 }
+
+  getOrderId(id:string){
+    const orderId = 'Order_' + id.slice(-6);
+    return orderId;
+  }
 
  placeOrder() {
 
@@ -223,7 +252,7 @@ placeCODOrder(){
      pinCode: this.checkoutForm.value.pinCode,
      phone: this.checkoutForm.value.phone,
      city: this.checkoutForm.value.city,
-     state: this.checkoutForm.value.state
+     state: this.checkoutForm.value.state,
    }
  };
 
@@ -237,47 +266,6 @@ placeCODOrder(){
 
 
 createShipment(newOrder:any){
-  const payload = {
-
-  order_id: "69919d3eeff09d9bfb7612a0",
-  order_date: "2026-02-15 10:17",
-
-  pickup_location: "warehouse",
-
-  billing_customer_name: "Anveshika",
-  billing_last_name: "Srivastava",
-
-  billing_address: "SwamiVivekanand Colony AkbarPur",
-  billing_city: "AmbedkarNagar",
-  billing_pincode: "224122",
-  billing_state: "Uttar Pradesh",
-  billing_country: "India",
-  billing_phone: "6387532966",
-
-  shipping_is_billing: true,
-
-  order_items: [
-    {
-      name: "Five Mukhi Rudraksha",
-      sku: "696a813b0dd4b01d012f02ee_With Pendant",
-      units: 1,
-      selling_price: 600
-    }
-  ],
-
-  payment_method: "COD",
-
-  cod: 1,
-
-  sub_total: 600,
-
-  length: 10,
-  breadth: 10,
-  height: 10,
-  weight: 0.5
-
-};
-
   const shiprocketPayload = {
    order_id: newOrder._id.toString(), // 👈 IMPORTANT
    order_date: this.formatShiprocketDate(newOrder.createdAt),
@@ -308,8 +296,13 @@ createShipment(newOrder:any){
    weight:0.5
 }
   this.checkoutSer.createShipment(shiprocketPayload,newOrder._id).subscribe((res)=>{
-    console.log("resss",res);
+    this.router.navigate(['/payment-success'],{
+  queryParams:{
+    orderId: this.getOrderId(newOrder._id),
+    amount: newOrder.totalAmount
+  }
 })
+  })
 }
     formatShiprocketDate(dateString:any) {
 

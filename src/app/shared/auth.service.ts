@@ -42,6 +42,13 @@ verifyEmailOtp(data:any) {
   return this.http.post(`${this.API}/verify-email-otp`, data);
 }
 
+verifyLoginOtpMobile(data: any) {
+  return this.http.post(`${this.API}/verify-otp`, data);
+}
+
+sendLoginOtpMobile(data: any) {
+  return this.http.post(`${this.API}/send-otp`, data);
+}
 setSession(res: any) {
   localStorage.setItem('token', res.token);
   localStorage.setItem('user', JSON.stringify(res.user));
@@ -58,4 +65,24 @@ localStorage.clear()
   sessionStorage.clear();
 }
 
+getUserId(){
+   if(this.isLoggedIn()){
+     const userStr = localStorage.getItem('user')
+      if (userStr) {
+        const user = JSON.parse(userStr);
+       return user.id;  
+      }
+    }
+
+}
+
+getUserRole(){
+   if(this.isLoggedIn()){
+     const userStr = localStorage.getItem('user')
+      if (userStr) {
+        const user = JSON.parse(userStr);
+       return user.role;  
+      }
+    }
+}
 }

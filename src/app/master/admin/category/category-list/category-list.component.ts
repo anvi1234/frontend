@@ -29,7 +29,7 @@ export class CategoryListComponent implements OnInit {
 
   
   editCategory(id:string) {
-    this.router.navigateByUrl(`/add-category/${id}`)
+    this.router.navigateByUrl(`admin/add-category/${id}`)
   }
 
   deleteCategory(id: any) {
@@ -47,6 +47,6 @@ export class CategoryListComponent implements OnInit {
     });
   }
   navigate(){
-    this.router.navigateByUrl("/add-category")
+    this.router.navigateByUrl("/admin/add-category")
   }
 }

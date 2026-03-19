@@ -1,9 +1,13 @@
 
 <section class="orange-slider">
-<ngb-carousel [interval]="2000" [animation]="false">
-  <ng-template ngbSlide *ngFor="let item of images">
+<ngb-carousel [interval]="2000" [animation]="false" [pauseOnHover]="false"
+    [pauseOnFocus]="false"
+    [wrap]="true">
+  <ng-template ngbSlide *ngFor="let banner of banners">
     <div class="carousel-img picsum-img-wrapper">
-      <img [src]="item" />
+    <img [src]="banner.image.url" [alt]="banner.altTag" />
+
+    <a *ngIf="banner.link" [routerLink]="banner.link" class="banner-link"></a>
     </div>
   </ng-template>
 </ngb-carousel>
@@ -32,29 +36,29 @@
            <div class="row">
   <div class="col-lg-3 col-md-3 col-sm-6 col-6" [routerLink]="['/product', 'rudraksh']">
     <div class="shop-cat-box">
-      <img class="img-fluid" src="../../../assets/images/category/cat03.jpeg" />
-      <a class="btn hvr-hover" style="color:white">Rudraksh</a>
+      <img class="img-fluid" src="../../../assets/images/category/cato8.jpeg" />
+      <a class="btn hvr-hover" style="color:white">Rudraksha</a>
     </div>
   </div>
 
   <div class="col-lg-3 col-md-3 col-sm-6 col-6" [routerLink]="['/product', 'gems']">
     <div class="shop-cat-box">
-      <img class="img-fluid" src="../../../assets/images/category/cat04.jpeg" />
-      <a class="btn hvr-hover" style="color:white">Gems</a>
+      <img class="img-fluid" src="../../../assets/images/category/cat08.webp" />
+      <a class="btn hvr-hover" style="color:white">Gemstones</a>
     </div>
   </div>
 
   <div class="col-lg-3 col-md-3 col-sm-6 col-6" [routerLink]="['/product', 'braslet']">
     <div class="shop-cat-box">
-      <img class="img-fluid" src="../../../assets/images/category/cat02.jpeg" />
-      <a class="btn hvr-hover" style="color:white">Braslet</a>
+      <img class="img-fluid" src="../../../assets/images/category/cat07.webp" />
+      <a class="btn hvr-hover" style="color:white">Braslet & other</a>
     </div>
   </div>
 
   <div class="col-lg-3 col-md-3 col-sm-6 col-6" [routerLink]="['/product', 'maala-and-kavash']">
     <div class="shop-cat-box">
-      <img class="img-fluid" src="../../../assets/images/category/cat01.jpeg" />
-      <a class="btn hvr-hover" style="color:white">Maala & Kavash</a>
+      <img class="img-fluid" src="../../../assets/images/category/cat09.webp">
+      <a class="btn hvr-hover" style="color:white">Mala & kavach</a>
     </div>
   </div>
 </div>
@@ -78,14 +82,14 @@
 			</div>
 		</div>
 	</div>
-     <div class="products-box">
+     <div class="products-box" *ngIf="productData.length>0">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="title-all text-center">
                         <h1>Divine New Arrivals</h1>
                         <p>Discover the Latest Divine Creations Inspired by Faith and Serenity</p>
-                        <p id="explore-link" routerLink="product-list">Explore All >></p>
+                        <p id="explore-link" [routerLink]="['/product-list']" [queryParams]="{ filter: selectedFilter }">Explore All >></p>
                     </div>
                 </div>
             </div>
@@ -93,23 +97,40 @@
                 <div class="col-lg-12">
                     <div class="special-menu text-center">
                         <div class="button-group filter-button-group">
-                            <button class="active" data-filter="*">All</button>
-                            <button data-filter=".top-featured">Top featured</button>
-                            <button data-filter=".best-seller">Best seller</button>
+                           <button
+  [ngClass]="{ active: selectedFilter === 'all' }"
+  (click)="filterType('all')"
+>
+  All
+</button>
+
+<button
+  [ngClass]="{ active: selectedFilter === 'top' }"
+  (click)="filterType('top')"
+>
+  Top featured
+</button>
+
+<button
+  [ngClass]="{ active: selectedFilter === 'best' }"
+  (click)="filterType('best')"
+>
+  Best seller
+</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="row special-list">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-6 special-grid best-seller" *ngFor="let item of productData">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-6 special-grid best-seller" *ngFor="let item of filteredProducts">
                     <div class="products-single fix">
                         <div class="box-img-hover">
                            
                             <img [src]="item.mainImage.url" class="img-fluid" alt="Image">
                             <div class="mask-icon">
                                 <ul>
-                                    <li><a (click)="productNavigate(item._id)" style="color:white" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                    <li><a (click)="productNavigate(item.slug)" style="color:white" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                             
                                     
                                 </ul>
@@ -151,16 +172,16 @@
 
   
     <p class="orange-desc">
-      At Aashirwad Rudraksh & Gems, we provide 100% authentic and lab-certified stone
-      sourced from trusted suppliers. Each stone undergoes strict quality
+      At Aashirwad Rudraksh & Gems, we provide 100% authentic and lab-certified GemStones
+      sourced from trusted suppliers. Each GemStones undergoes strict quality
       checks to ensure purity, authenticity, and astrological effectiveness.
-      Whether for jewelry or spiritual healing, our stone collection is
+      Whether for jewelry or spiritual healing, our GemStones collection is
       designed to meet every need with trust and transparency.
     </p>
 
     <div class="gems-grid">
-      <div class="gem-box" *ngFor="let item of getRudrakshData()" (click)="productNavigate(item._id)">
-        <span class="sale-badge">Sale</span>
+      <div class="gem-box" *ngFor="let item of getRudrakshData()" (click)="productNavigate(item.slug)">
+        <!-- <span class="sale-badge">Sale</span> -->
         <img [src]="item.mainImage.url">
         <h4>{{item.name}}</h4>
            <div class="price-box"> <!-- Final Price --> <span class="final-price"> {{ item.finalPrice | currency:'INR':'symbol':'1.0-0' }} </span> <!-- Original Price --> <span class="original-price" *ngIf="item.discount>0"> {{ item.price | currency:'INR':'symbol':'1.0-0' }} </span> <!-- Discount Badge --> <span class="discount" *ngIf="item.discount>0"> {{ item.discount }}% OFF </span> </div>
@@ -176,10 +197,10 @@
   <div class="container">
     <h2 class="orange-title">Certified Gemstones</h2>
      <p class="orange-desc">
-      At Aashirwad Rudraksh & Gems, we provide 100% authentic and lab-certified stone
-      sourced from trusted suppliers. Each stone undergoes strict quality
+      At Aashirwad Rudraksh & Gems, we provide 100% authentic and lab-certified GemStones
+      sourced from trusted suppliers. Each GemStones undergoes strict quality
       checks to ensure purity, authenticity, and astrological effectiveness.
-      Whether for jewelry or spiritual healing, our stone collection is
+      Whether for jewelry or spiritual healing, our GemStones collection is
       designed to meet every need with trust and transparency.
     </p>
 
@@ -209,7 +230,7 @@
         </div>
         <h4>Lab Certification</h4>
         <p>
-          All our stone and Rudraksha are tested and certified by trusted
+          All our GemStones and Rudraksha are tested and certified by trusted
           laboratories, ensuring purity, authenticity, and quality.
         </p>
       </div>
@@ -249,7 +270,7 @@
     <p class="intro-text">
       Ashirwad Rudraksh & Gems is an online store offering a wide range of spiritual
       products designed to enhance your spiritual practice and inner well-being.
-      From Rudraksha beads to stone and sacred yantras, every item is chosen
+      From Rudraksha beads to GemStones and sacred yantras, every item is chosen
       with care and devotion.
     </p>
 
@@ -295,12 +316,12 @@
 
       <div class="why-box">
         <h4>✔ Wide Variety</h4>
-        <p>Rudraksha, stone, yantras, idols, and spiritual jewelry.</p>
+        <p>Rudraksha, GemStones, yantras, idols, and spiritual jewelry.</p>
       </div>
 
       <div class="why-box">
         <h4>✔ Lab Certified</h4>
-        <p>All stone and spiritual items are laboratory certified.</p>
+        <p>All GemStones and spiritual items are laboratory certified.</p>
       </div>
 
       <div class="why-box">
@@ -337,7 +358,7 @@
     <details class="faq-item">
       <summary>What kind of Gemstones do you offer?</summary>
       <p>
-        We offer a wide range of stone including diamonds, emeralds, rubies,
+        We offer a wide range of GemStones including diamonds, emeralds, rubies,
         sapphires, topaz, amethyst, aquamarine, garnet, opal, peridot, tourmaline,
         and more—carefully selected for quality and beauty.
       </p>
@@ -388,7 +409,7 @@
        <details class="faq-item">
       <summary>
                     
-                      Who can buy products from Ashirvad Rudraksh & Gems?
+                      Who can buy products from Ashirwad Rudraksh & Gems?
                     
                     </summary>
   <p>Anyone can buy products from Hare Krishna Mart. We have clients across India and we currently ship to all Indian locations.</p>
@@ -437,7 +458,7 @@
 </details>  
   <details class="faq-item">
       <summary>
-                      How can I contact Ashirvad Rudraksh & Gems customer support?
+                      How can I contact Ashirwad Rudraksh & Gems customer support?
                     </summary>
    <p>You can contact us through our website or via email/phone. Our customer support team is always ready to assist you with any queries.</p>
     </details>   

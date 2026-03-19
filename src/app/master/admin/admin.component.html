@@ -1,0 +1,29 @@
+<div class="dashboard-container">
+  
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">Spiritual Admin</div>
+    <ul class="menu">
+      <li routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</li>
+      <li routerLink="/admin/products" routerLinkActive="active">Products</li>
+      <li routerLink="/admin/categories" routerLinkActive="active">Categories</li>
+       <li routerLink="/admin/banner-list" routerLinkActive="active">Banner</li>
+       <li routerLink="/admin/order-list" routerLinkActive="active">Order</li>
+      <li routerLink="/admin/astro-consultation-list" routerLinkActive="active">Astro Consultation</li>
+      <li routerLink="/admin/astro-education-list" routerLinkActive="active">Astro Edu</li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header class="navbar">
+      <h2>Admin Panel</h2>
+    </header>
+
+    <!-- 🔥 ADD THIS WRAPPER -->
+    <div class="page-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>

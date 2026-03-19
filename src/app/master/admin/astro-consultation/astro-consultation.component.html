@@ -8,8 +8,9 @@
    
   </div>
   <br>
- 
-   <table class="product-table">
+ <div class="table-container">
+    <div class="table-scroll">
+       <table class="product-table">
       <thead>
         <tr>
           <th>Name</th>
@@ -33,12 +34,16 @@
                 <td>{{ cat.birthTime  }}</td>
                     <td>{{ cat.birthPlace  }}</td>
                      <td>{{ cat.consultationType}}</td>
-                      <td>{{ cat.message}}</td>
+                      <td class="breakword">{{ cat.message}}</td>
                        <td>{{ cat.createdAt | date}}</td>
         
         
         </tr>
       </tbody>
     </table>
+    </div>
+  </div>
+
+
   </div>
 

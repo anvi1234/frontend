@@ -1,0 +1,26 @@
+<div class="product-form-wrapper">
+<form [formGroup]="bannerForm" class="product-form">
+ <div class="form-group">
+  <label>Title Name</label>
+  <input type="text" placeholder="Title" formControlName="title">
+  <app-form-error [control]="bannerForm.get('title')" [errorLabel]="'Title Name'"></app-form-error>
+</div>
+ <div class="form-group">
+  <label>Banner Upload</label>
+<input  #fileInput type="file" accept="image/*" (change)="onMainImageSelect($event)" />
+</div>
+ <div class="form-group">
+  <label>Link</label>
+<input type="text" placeholder="Link" formControlName="link">
+</div>
+ <div class="form-group">
+  <label>Position</label>
+<input type="number" placeholder="Position" formControlName="position">
+<app-form-error [control]="bannerForm.get('position')" [errorLabel]="'Position'"></app-form-error>
+  </div>
+
+<button (click)="saveBanner()">Save</button>
+
+</form>
+
+  </div>
