@@ -13,5 +13,6 @@ export interface CartItem {
   variantType: string;
   variantSize: string;
   quantity: number;
+  slug:string;
   updatedprice:number;
 }

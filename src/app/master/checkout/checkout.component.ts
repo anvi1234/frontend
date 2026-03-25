@@ -200,11 +200,13 @@ pay() {
             this.checkoutForm.reset();
             this.cartItems.items = [];
             this.totalAmount = 0;
+             this.createShipment(res.order)
             this.router.navigate(['/payment-success'],{
   queryParams:{
     orderId: this.getOrderId(res._id),
     amount: response.order.totalAmount
   }
+
 });
             alert('Payment Successful ✅');
           } else {

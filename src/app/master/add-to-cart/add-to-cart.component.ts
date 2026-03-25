@@ -73,6 +73,9 @@ this.loadCartData();
   }
 
   goToShop(){
-
+ this.router.navigateByUrl("/")
+  }
+ public navigate(slugname: string) {
+    this.router.navigateByUrl(`/product-detail/${slugname}`);
   }
 }

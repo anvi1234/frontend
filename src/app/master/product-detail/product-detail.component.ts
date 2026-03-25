@@ -270,9 +270,10 @@ addToCart(item?:any){
     price: item.finalPrice,
     feature:  item?.features[0]?.label,
     image: item.mainImage.url,
-    quantity: 1,
+    quantity: this.quantity,
     variantType: item.variantType,
-    variantSize: item.variantSize
+    variantSize: item.variantSize,
+     slug:item.slug
   };
   }
   else{

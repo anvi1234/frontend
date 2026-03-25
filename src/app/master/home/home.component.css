@@ -48,7 +48,29 @@
     font-weight: 600;
   }
 }
+.marquee-box {
+  background-color: rgb(252, 111, 0);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 12px 0;
+   position: relative;
+  z-index: 2;
+}
 
+.marquee-track {
+  display: flex;                 /* 👈 change from inline-flex */
+  width: max-content;
+  min-height: 24px;              /* 👈 reserve height */
+  align-items: center;
+  animation: marquee 12s linear infinite;
+}
+
+
+.marquee-track span {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+}
 
 /* Continuous animation */
 @keyframes marquee {

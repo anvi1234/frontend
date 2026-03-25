@@ -91,6 +91,16 @@ trackOrder(id:string,order:any){
   })
 }
 
+trackOrderInWindows(order: any) {
+  const url = order.shipment.trackingUrl; // your tracking URL
+
+  if (url) {
+    window.open(url, '_blank'); // opens in new tab
+  } else {
+    console.error('Tracking URL not available');
+  }
+}
+
 showOrderDetails(order:any){
 order.showDetails = !order.showDetails;
  order.showTracking = false

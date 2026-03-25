@@ -106,7 +106,8 @@ addToCart(itemDetails:any){
     image: itemDetails.mainImage.url,
     quantity: 1,
     variantType: '',
-    variantSize: ''
+    variantSize: '',
+    slug:itemDetails.slug
   };
 
 

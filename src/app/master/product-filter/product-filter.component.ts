@@ -204,7 +204,8 @@ applyLocalFilters() {
       image: itemDetails.mainImage.url,
       quantity: 1,
       variantType: '',
-      variantSize: ''
+      variantSize: '',
+      slug: itemDetails.slug
     };
 
     this.addToCartSer.addToCart(product).subscribe((res) => {
