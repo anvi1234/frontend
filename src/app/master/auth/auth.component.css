@@ -150,3 +150,20 @@
   cursor: pointer;
   font-weight: 600;
 }
+.resend-section {
+  margin-top: 8px;
+  text-align: right;
+}
+
+.resend-link {
+  color: #007bff;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: underline;
+}
+
+.resend-link.disabled {
+  color: gray;
+  cursor: not-allowed;
+  text-decoration: none;
+}

@@ -93,7 +93,7 @@
 <div class="payment-mode">
 
   <label class="payment-option">
-    <input type="radio" formControlName="paymentMode" value="online">
+    <input type="radio" formControlName="paymentMode" value="Prepaid">
     <span>Pay Online (Razorpay)</span>
   </label>
 
@@ -110,7 +110,7 @@
   type="button"
   class="pay-btn"
   (click)="placeOrder()"
-  [disabled]="checkoutForm.invalid">
+  [disabled]="checkoutForm.invalid || isSubmitted">
 
   {{ checkoutForm.value.paymentMode === 'cod' 
       ? 'Place COD Order' 

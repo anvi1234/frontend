@@ -100,7 +100,18 @@
       </div>
       <!-- Send OTP -->
 
+   <div *ngIf="loginOtpSent" class="resend-section">
+  <span
+    class="resend-link"
+    [class.disabled]="resendTimer > 0"
+    (click)="resendTimer === 0 && resendRegisterOtp()">
 
+    {{ resendTimer > 0 
+        ? 'Resend OTP in ' + resendTimer + 's' 
+        : 'Resend OTP' }}
+
+  </span>
+</div>
       <!-- Submit -->
      <button class="btn-primary" type="button" (click)="handleOtpAction()">
   {{ loginOtpSent ? 'Verify OTP' : 'Send OTP' }}
@@ -115,7 +126,7 @@
       <input type="email" placeholder="Email" formControlName="email" />
         <app-form-error
           [control]="loginForm.get('email')"
-          errorLabel="Password">
+          errorLabel="Email">
         </app-form-error>
     </div>
 
@@ -128,19 +139,9 @@
           errorLabel="Password">
         </app-form-error>
     </div>
-     <div class="input-group" *ngIf="loginViaOTP">
-        <i class="fa fa-key"></i>
-        <input
-          type="text"
-          placeholder="Enter OTP"
-          formControlName="otp" />
-           <app-form-error
-          [control]="loginForm.get('otp')"
-          errorLabel="OTP">
-        </app-form-error>
-      </div>
+   
       <!-- Send OTP -->
-  
+
 
     <button class="btn-primary" type="submit" (click)="submitLogin()">
        {{loginOtpSent ? "Verify OTP" : 'Login'}}
@@ -213,7 +214,7 @@
         <i class="fa fa-key"></i>
         <input
           type="text"
-          placeholder="Enter Email OTP"
+          placeholder="Enter OTP"
           formControlName="otp" />
            <app-form-error
           [control]="registerForm.get('otp')"
@@ -227,8 +228,20 @@
         class="btn-outline"
       
         (click)="verifyRegisterOtp()">
-        {{ !registerOtpSent ? 'OTP Sent' : 'Verify Email' }}
+        {{ !registerOtpSent ? 'OTP Sent' : 'Verify Phone' }}
       </button>
+      <div *ngIf="registerOtpSent" class="resend-section">
+  <span
+    class="resend-link"
+    [class.disabled]="resendTimer > 0"
+    (click)="resendTimer === 0 && resendRegisterOtp()">
+
+    {{ resendTimer > 0 
+        ? 'Resend OTP in ' + resendTimer + 's' 
+        : 'Resend OTP' }}
+
+  </span>
+</div>
       <!-- Submit -->
       <button   *ngIf="!registerOtpSent" class="btn-primary" type="submit" (click)="submitRegistration()">
         Register

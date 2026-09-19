@@ -15,6 +15,7 @@ declare var Razorpay: any;
 export class CheckoutComponent implements OnInit {
 
   checkoutForm!: FormGroup;
+  isSubmitted: boolean = false;
 
   cartItems!: Cart;
   totalAmount = 0;
@@ -103,7 +104,7 @@ export class CheckoutComponent implements OnInit {
         Validators.pattern(/^[6-9]\d{9}$/)
       ]],
       address: ['', Validators.required],
-      paymentMode:['online'],
+      paymentMode:['Prepaid'],
       state:['',Validators.required],
       city:['',Validators.required]
     });
@@ -153,7 +154,7 @@ export class CheckoutComponent implements OnInit {
 
 
 pay() {
-  this.checkoutSer.createOrder(1).subscribe((order: any) => {
+  this.checkoutSer.createOrder(this.totalAmount).subscribe((order: any) => {
     const options = {
       key: 'rzp_live_SPsOWUwOGq0yBs',
       amount: order.amount,
@@ -194,7 +195,7 @@ pay() {
             phone: this.checkoutForm.value.phone
           }
         };
-
+        this.isSubmitted = true;
         this.checkoutSer.verifyPayment(payload).subscribe((res: any) => {
           if (res.status === 'success') {
             this.checkoutForm.reset();
@@ -208,9 +209,9 @@ pay() {
   }
 
 });
-            alert('Payment Successful ✅');
+         
           } else {
-            alert('Payment Verification Failed ❌');
+          
           }
         });
       },
@@ -232,7 +233,7 @@ pay() {
 
  const paymentMode = this.checkoutForm.value.paymentMode;
 
- if(paymentMode === 'online'){
+ if(paymentMode === 'Prepaid'){
    this.payNow(); // Razorpay
  } else {
    this.placeCODOrder();
@@ -259,8 +260,8 @@ placeCODOrder(){
  };
 
  this.checkoutSer.createCODOrder(payload).subscribe((res:any) => {
+  this.isSubmitted = true;
         this.createShipment(res.order)
-   alert('Order placed successfully (COD)');
  });
 
 }

@@ -245,7 +245,7 @@ buyNow(){
     productId:this.productDetail._id,
     updatedprice: this.productDetail.finalPrice,
     price: this.staticFinalPrice,
-    feature: this.productDetail.features[0].label,
+    feature: this.productDetail?.features[0]?.label,
     image: this.productDetail.mainImage.url,
     quantity: this.quantity,
     variantType: this.variantType,

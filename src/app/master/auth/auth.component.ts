@@ -127,6 +127,7 @@ submitRegistration() {
 
       this.registerForm.get('otp')?.setValidators([Validators.required]);
       this.registerForm.get('otp')?.updateValueAndValidity();
+      this.startResendTimer(600)
     },
     error: err => {
       this.message = err.error.message;
@@ -143,10 +144,15 @@ submitRegistration() {
     this.registerForm.reset();
     this.otpSent = false;
     this.close.emit();
+    this.loginOtpSent = false;
+    this.loginMode = "otp"
+
   }
     switchTab(tab: 'login' | 'register') {
     this.activeTab = tab;
     this.resetOtpState();
+    this.message =  "";
+    this.successmessage = "";
   }
 
    resetOtpState() {
@@ -174,11 +180,11 @@ submitRegistration() {
   if (!this.registerForm.value.otp) return;
 
   const payload = {
-    email: this.registerForm.value.email,
+    phone: this.registerForm.value.phone,
     otp: this.registerForm.value.otp
   };
 
-  this.authService.verifyEmailOtp(payload).subscribe({
+  this.authService.verifyPhoneOtp(payload).subscribe({
     next: (res: any) => {
       this.showSuccess(res.message)
       // Reset register form
@@ -273,6 +279,7 @@ sendOTP() {
     this.loginOtpSent = true;
      this.loginForm.get("otp")?.setValidators([Validators.required]);
     this.successmessage = 'OTP sent successfully';
+    this.startResendTimer(600)
     },
     error: (err) => {
       console.error(err);
@@ -308,5 +315,42 @@ handleOtpAction() {
   }
   }
  
+}
+
+resendTimer: number = 0;
+timerInterval: any;
+startResendTimer(seconds: number = 600) {
+  this.resendTimer = seconds;
+
+  if (this.timerInterval) {
+    clearInterval(this.timerInterval);
+  }
+
+  this.timerInterval = setInterval(() => {
+    if (this.resendTimer > 0) {
+      this.resendTimer--;
+    } else {
+      clearInterval(this.timerInterval);
+    }
+  }, 1000);
+}
+
+resendRegisterOtp(){
+ const payload = {
+    phone: this.loginForm.get("phone")?.value
+  };
+
+  this.authService.resendOtp(payload).subscribe({
+    next: (res: any) => {
+    this.loginOtpSent = true;
+     this.loginForm.get("otp")?.setValidators([Validators.required]);
+    this.successmessage = 'OTP sent successfully';
+    this.startResendTimer(600)
+    },
+    error: (err) => {
+      console.error(err);
+      alert(err.error?.message || 'Failed to send OTP');
+    }
+  });
 }
 }

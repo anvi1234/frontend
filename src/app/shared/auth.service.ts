@@ -38,8 +38,12 @@ register(data:any) {
   return this.http.post(`${this.API}/register`, data);
 }
 
-verifyEmailOtp(data:any) {
-  return this.http.post(`${this.API}/verify-email-otp`, data);
+resendOtp(data:any){
+  return this.http.post(`${this.API}/resend-phone-otp`, data);
+}
+
+verifyPhoneOtp(data:any) {
+  return this.http.post(`${this.API}/verify-phone-otp`, data);
 }
 
 verifyLoginOtpMobile(data: any) {
